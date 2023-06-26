@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
-
 import { MemoryRouter } from 'react-router-dom';
+import Header from './Header';
 
-import App from './App';
-
-test('App', () => {
+test('Header', () => {
   render((
     <MemoryRouter>
-      <App />
+      <Header />
     </MemoryRouter>
   ));
+
+  screen.getByText('Home');
 });
