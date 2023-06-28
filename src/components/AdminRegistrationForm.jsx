@@ -1,10 +1,13 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import useShopStore from '../hooks/useShopStore';
 
 export default function AdminRegistrationForm() {
   const { register, handleSubmit } = useForm();
 
   const shopStore = useShopStore();
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const {
@@ -14,6 +17,8 @@ export default function AdminRegistrationForm() {
     await shopStore.registerProduct({
       name, description, image, price, quantity,
     });
+
+    navigate('/admin/management');
   };
 
   return (

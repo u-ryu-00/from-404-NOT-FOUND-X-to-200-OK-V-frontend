@@ -23,11 +23,29 @@ export default function AdminManagementTable() {
       <hr />
       {products.map((product) => (
         <div key={product.id}>
-          <h1>{product.name}</h1>
-          <h1>{product.description}</h1>
-          <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />
-          <h1>{numberFormat(product.price)}</h1>
-          <h1>{product.quantity}</h1>
+          <h1>
+            상품 이름 :
+            {' '}
+            {product.name}
+          </h1>
+          <h1>
+            설명 :
+            {' '}
+            {product.description}
+          </h1>
+          <img src={product.image} alt="상품 사진" style={{ width: '10rem', height: '10rem' }} />
+          <h1>
+            가격 :
+            {' '}
+            {numberFormat(product.price)}
+            원
+          </h1>
+          <h1>
+            재고:
+            {' '}
+            {product.quantity}
+            개
+          </h1>
           <button
             type="button"
             onClick={() => handleEditProduct(product.id)}

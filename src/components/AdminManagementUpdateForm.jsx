@@ -1,11 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useShopStore from '../hooks/useShopStore';
 
 export default function AdminManagementUpdateForm() {
   const { register, handleSubmit, setValue } = useForm();
 
   const shopStore = useShopStore();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -35,6 +38,8 @@ export default function AdminManagementUpdateForm() {
     await shopStore.updateProduct({
       id, name, description, image, price, quantity,
     });
+
+    navigate('/admin/management');
   };
 
   return (
