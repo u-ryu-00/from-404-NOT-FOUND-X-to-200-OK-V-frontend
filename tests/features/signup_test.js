@@ -175,7 +175,7 @@ Scenario('회원가입에 성공한 경우', ({ I }) => {
   I.click('[type=submit]');
 
   // Then
-  I.amOnPage('/signupComplete');
+  I.amOnPage('/signup/complete');
   I.see('회원가입 완료');
   I.see('로그인하기');
 });

@@ -18,6 +18,8 @@ import AdminHomePage from './pages/AdminHomePage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminRegistrationPage from './pages/AdminRegistrationPage';
 import AdminManagementPage from './pages/AdminManagementPage';
+import AdminHeader from './components/AdminHeader';
+import AdminManagementUpdatePage from './pages/AdminManagementUpdatePage';
 
 export default function App() {
   return (
@@ -25,20 +27,22 @@ export default function App() {
       <Reset />
       <GlobalStyle />
       <Header />
+      <AdminHeader />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/signupComplete" element={<SignupCompletePage />} />
+        <Route path="/signup/complete" element={<SignupCompletePage />} />
         <Route path="/products" element={<ShopPage />} />
-        <Route path="/products/{id}" element={<ProductDetailPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/order" element={<OrderPage />} />
-        <Route path="/orderList" element={<OrderListPage />} />
+        <Route path="/orders" element={<OrderListPage />} />
         <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />
         <Route path="/admin/management" element={<AdminManagementPage />} />
+        <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
       </Routes>
     </div>
   );

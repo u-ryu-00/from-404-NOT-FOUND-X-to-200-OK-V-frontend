@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import AdminManagementTable from '../components/AdminManagementTable';
+import AdminManagementUpdateForm from '../components/AdminManagementUpdateForm';
 import useShopStore from '../hooks/useShopStore';
 
-export default function AdminManagementPage() {
+export default function AdminManagementUpdatePage() {
   const shopStore = useShopStore();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function AdminManagementPage() {
 
   return (
     <div>
-      <AdminManagementTable />
+      <AdminManagementUpdateForm />
     </div>
   );
 }

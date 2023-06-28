@@ -22,4 +22,13 @@ describe('ShopStore', () => {
       });
     });
   });
+
+  describe('fetchProduct', () => {
+    it('loads product information', async () => {
+      await shopStore.fetchProduct(2);
+
+      expect(shopStore.name).toBe('거북이 인형');
+      expect(shopStore.description).toBe('귀여운 사이즈의 거북이 인형입니다!');
+    });
+  });
 });

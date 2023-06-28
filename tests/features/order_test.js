@@ -95,6 +95,6 @@ Scenario('결제하기에 성공한 경우', ({ I }) => {
   I.click('결제하기');
 
   // Then
-  I.amOnPage('/orderList');
+  I.amOnPage('/orders');
   I.see('내가 주문한 내역입니다.');
 });
