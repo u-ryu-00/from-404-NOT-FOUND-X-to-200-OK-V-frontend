@@ -5,7 +5,7 @@ Scenario('(로그인 후) 주문내역이 없는 경우', ({ I }) => {
   // 로그인 함.
 
   // When
-  I.amOnPage('/orderList');
+  I.amOnPage('/orders');
 
   // Then
   I.see('주문 내역이 없습니다.');
@@ -16,7 +16,7 @@ Scenario('(로그인 후) 주문내역이 있는 경우', ({ I }) => {
   // 로그인 함.
 
   // When
-  I.amOnPage('/orderList');
+  I.amOnPage('/orders');
 
   // Then
   I.see('내가 주문한 내역입니다.');

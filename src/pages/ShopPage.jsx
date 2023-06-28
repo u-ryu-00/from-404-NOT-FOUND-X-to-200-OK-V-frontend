@@ -1,5 +1,17 @@
+import { useEffect } from 'react';
+import useShopStore from '../hooks/useShopStore';
+import Products from '../components/Products';
+
 export default function ShopPage() {
+  const shopStore = useShopStore();
+
+  useEffect(() => {
+    shopStore.fetchProducts();
+  }, []);
+
   return (
-    <p>Shop(상품 목록) 페이지</p>
+    <div>
+      <Products />
+    </div>
   );
 }
