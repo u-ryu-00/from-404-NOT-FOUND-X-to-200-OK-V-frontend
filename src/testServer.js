@@ -26,7 +26,7 @@ const server = setupServer(
         description: '소음이 적은 레이저 기계식 키보드',
         iamge: 'https://images.unsplash.com/photo-1601445638532-3c6f6c3aa1d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=386&q=80',
         price: 49_000,
-        quantity: 2,
+        inventory: 2,
       },
       {
         id: 2,
@@ -34,7 +34,7 @@ const server = setupServer(
         description: '귀여운 사이즈의 거북이 인형입니다!',
         iamge: 'https://images.unsplash.com/photo-1488723905857-809bb9a2d21d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
         price: 30_000,
-        quantity: 3,
+        inventory: 3,
       },
     ],
   }))),
@@ -43,7 +43,7 @@ const server = setupServer(
     description: '귀여운 사이즈의 거북이 인형입니다!',
     image: 'https://images.unsplash.com/photo-1488723905857-809bb9a2d21d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
     price: 30_000,
-    quantity: 3,
+    inventory: 3,
   }))),
 );
 

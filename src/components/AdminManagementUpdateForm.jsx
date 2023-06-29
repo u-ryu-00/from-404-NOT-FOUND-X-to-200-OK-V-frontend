@@ -16,27 +16,27 @@ export default function AdminManagementUpdateForm() {
       await shopStore.fetchProduct(id);
 
       const {
-        name, description, image, price, quantity,
+        name, description, image, price, inventory,
       } = shopStore;
 
       setValue('name', name);
       setValue('description', description);
       setValue('image', image);
       setValue('price', price);
-      setValue('quantity', quantity);
+      setValue('inventory', inventory);
     };
     fetchProduct();
   }, [shopStore, setValue]);
 
   const onSubmit = async (data) => {
     const {
-      name, description, image, price, quantity,
+      name, description, image, price, inventory,
     } = data;
 
     const id = window.location.pathname.split('/').pop();
 
     await shopStore.updateProduct({
-      id, name, description, image, price, quantity,
+      id, name, description, image, price, inventory,
     });
 
     navigate('/admin/management');
@@ -79,11 +79,11 @@ export default function AdminManagementUpdateForm() {
           />
         </div>
         <div>
-          <label htmlFor="input-product-quantity">상품 수량</label>
+          <label htmlFor="input-product-inventory">상품 수량</label>
           <input
-            id="input-product-quantity"
+            id="input-product-inventory"
             // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('quantity', { required: true })}
+            {...register('inventory', { required: true })}
           />
         </div>
         <button type="submit">상품 수정</button>

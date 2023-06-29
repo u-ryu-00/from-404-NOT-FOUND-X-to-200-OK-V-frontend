@@ -43,7 +43,7 @@ export default function AdminManagementTable() {
           <h1>
             재고:
             {' '}
-            {product.quantity}
+            {product.inventory}
             개
           </h1>
           <button

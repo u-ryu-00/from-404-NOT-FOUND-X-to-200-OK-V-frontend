@@ -45,6 +45,7 @@ export default function HomePage() {
             </div>
           );
         }
+        return null;
       })}
       <button type="button" onClick={shopMoreButtonClick}>SHOP MORE</button>
     </div>

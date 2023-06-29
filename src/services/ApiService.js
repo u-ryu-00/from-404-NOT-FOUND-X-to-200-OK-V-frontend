@@ -16,11 +16,11 @@ export default class ApiService {
   }
 
   async registerProduct({
-    name, description, image, price, quantity,
+    name, description, image, price, inventory,
   }) {
     const url = `${baseUrl}/admin/products`;
     await axios.post(url, {
-      name, description, image, price, quantity,
+      name, description, image, price, inventory,
     });
   }
 
@@ -39,22 +39,36 @@ export default class ApiService {
       description: data.description,
       image: data.image,
       price: data.price,
-      quantity: data.quantity,
+      inventory: data.inventory,
     };
   }
 
   async updateProduct({
-    id, name, description, image, price, quantity,
+    id, name, description, image, price, inventory,
   }) {
     const url = `${baseUrl}/products/${id}`;
     await axios.patch(url, {
-      name, description, image, price, quantity,
+      name, description, image, price, inventory,
     });
   }
 
   async deleteProduct(id) {
     const url = `${baseUrl}/products/${id}`;
     await axios.delete(url);
+  }
+
+  async requestOrder({
+    productId, name, description, image, price, quantity,
+  }) {
+    const url = `${baseUrl}/orders`;
+    await axios.post(url, {
+      productId,
+      name,
+      description,
+      image,
+      price,
+      quantity,
+    });
   }
 }
 

@@ -9,7 +9,10 @@ export default class ShopStore {
     this.description = '';
     this.image = '';
     this.price = 0;
-    this.quantity = 0;
+    this.inventory = 0;
+
+    this.quantity = 1;
+    this.totalPrice = 0;
 
     this.registerProductState = '';
     this.deleteProductState = '';
@@ -44,12 +47,12 @@ export default class ShopStore {
   }
 
   async registerProduct({
-    name, description, image, price, quantity,
+    name, description, image, price, inventory,
   }) {
     this.changeRegisterProductState('processing');
     try {
       await apiService.registerProduct({
-        name, description, image, price, quantity,
+        name, description, image, price, inventory,
       });
       this.changeRegisterProductState('success');
     } catch (e) {
@@ -71,7 +74,7 @@ export default class ShopStore {
 
   async fetchProduct(id) {
     const {
-      productId, name, description, image, price, quantity,
+      productId, name, description, image, price, inventory,
     } = await apiService.fetchProduct(id);
 
     this.productId = productId;
@@ -79,18 +82,40 @@ export default class ShopStore {
     this.description = description;
     this.image = image;
     this.price = price;
-    this.quantity = quantity;
+    this.inventory = inventory;
+
+    this.totalPrice = this.price * this.quantity;
+
+    this.publish();
+  }
+
+  plusQuantityAndTotalPrice() {
+    this.quantity += 1;
+    this.totalPrice = this.price * this.quantity;
+
+    this.publish();
+  }
+
+  minusQuantityAndTotalPrice() {
+    this.quantity -= 1;
+    this.totalPrice = this.price * this.quantity;
+
+    this.publish();
+  }
+
+  resetQuantity() {
+    this.quantity = 1;
 
     this.publish();
   }
 
   async updateProduct({
-    id, name, description, image, price, quantity,
+    id, name, description, image, price, inventory,
   }) {
     this.changeUpdateProductState('processing');
     try {
       await apiService.updateProduct({
-        id, name, description, image, price, quantity,
+        id, name, description, image, price, inventory,
       });
       this.changeUpdateProductState('success');
     } catch (e) {
@@ -116,6 +141,36 @@ export default class ShopStore {
 
   changeDeleteProductState(state) {
     this.deleteProductState = state;
+    this.publish();
+  }
+
+  async requestOrder({
+    productId,
+    name,
+    description,
+    image,
+    price,
+    quantity,
+  }) {
+    this.changeOrderState('processing');
+    try {
+      await apiService.requestOrder({
+        productId,
+        name,
+        description,
+        image,
+        price,
+        quantity,
+      });
+      this.changeOrderState('success');
+    } catch (e) {
+      this.changeOrderState('fail');
+    }
+  }
+
+  changeOrderState(state) {
+    this.orderState = state;
+
     this.publish();
   }
 }
