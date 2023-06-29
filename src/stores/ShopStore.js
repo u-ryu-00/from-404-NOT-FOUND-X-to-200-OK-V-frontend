@@ -65,9 +65,10 @@ export default class ShopStore {
     this.publish();
   }
 
-  async fetchProducts() {
-    const data = await apiService.fetchProducts();
+  async fetchProducts(pageNumber) {
+    const data = await apiService.fetchProducts(pageNumber);
     this.products = data.products;
+    this.totalPages = data.totalPages;
 
     this.publish();
   }
