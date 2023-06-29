@@ -11,11 +11,11 @@ export default function AdminRegistrationForm() {
 
   const onSubmit = async (data) => {
     const {
-      name, description, image, price, quantity,
+      name, description, image, price, inventory,
     } = data;
 
     await shopStore.registerProduct({
-      name, description, image, price, quantity,
+      name, description, image, price, inventory,
     });
 
     navigate('/admin/management');
@@ -58,11 +58,11 @@ export default function AdminRegistrationForm() {
           />
         </div>
         <div>
-          <label htmlFor="input-product-quantity">상품 수량</label>
+          <label htmlFor="input-product-inventory">상품 수량</label>
           <input
-            id="input-product-quantity"
+            id="input-product-inventory"
             // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('quantity', { required: true })}
+            {...register('inventory', { required: true })}
           />
         </div>
         <button type="submit">상품 등록</button>
