@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useEffect } from 'react';
 import MainBanner from '../../img/MainBanner.png';
@@ -35,14 +35,14 @@ export default function HomePage() {
       {products.map((product) => {
         if (product.id <= 4) {
           return (
-            <div key={product.id}>
+            <Link to={`/products/${product.id}`} key={product.id}>
               <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />
               <h1>{product.name}</h1>
               <h1>
                 {numberFormat(product.price)}
                 원
               </h1>
-            </div>
+            </Link>
           );
         }
         return null;
