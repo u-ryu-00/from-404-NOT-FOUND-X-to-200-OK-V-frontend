@@ -1,14 +1,17 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
 
 export default function OrderForm() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const shopStore = useShopStore();
 
+  const navigate = useNavigate();
+
   const {
-    productId, name, description, image, price, quantity,
+    userId, productId, name, description, image, price, inventory, quantity,
   } = shopStore;
 
   const onSubmit = async (data) => {
@@ -17,13 +20,21 @@ export default function OrderForm() {
     } = data;
 
     await shopStore.requestOrder({
+      userId,
       productId,
       name,
       description,
       image,
       price,
+      inventory,
       quantity,
+      receiver,
+      address,
+      phoneNumber,
+      deliveryMessage,
     });
+
+    navigate('/orders');
   };
 
   return (
@@ -46,6 +57,9 @@ export default function OrderForm() {
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('receiver', { required: true })}
         />
+        {errors.receiver ? (
+          <p>받으시는 분 성함을 입력해주세요.</p>
+        ) : null}
         <br />
         <label htmlFor="address">주소*</label>
         <input
@@ -73,7 +87,7 @@ export default function OrderForm() {
           {numberFormat(shopStore.totalPrice)}
           원
         </p>
-        <button type="button">결제하기</button>
+        <button type="submit">결제하기</button>
       </form>
     </div>
   );

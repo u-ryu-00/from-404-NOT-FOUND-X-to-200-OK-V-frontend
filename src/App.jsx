@@ -2,6 +2,8 @@ import { Reset } from 'styled-reset';
 
 import { Route, Routes } from 'react-router-dom';
 
+import { useLocalStorage } from 'usehooks-ts';
+import { useEffect } from 'react';
 import GlobalStyle from './styles/GlobalStyle';
 
 import HomePage from './pages/HomePage';
@@ -13,15 +15,23 @@ import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/Cartpage';
 import OrderPage from './pages/OrderPage';
-import OrderListPage from './pages/OrderListPage';
+import OrdersPage from './pages/OrdersPage';
 import AdminHomePage from './pages/AdminHomePage';
 import AdminLoginPage from './pages/AdminLoginPage';
 import AdminRegistrationPage from './pages/AdminRegistrationPage';
 import AdminManagementPage from './pages/AdminManagementPage';
 import AdminHeader from './components/AdminHeader';
 import AdminManagementUpdatePage from './pages/AdminManagementUpdatePage';
+import { apiService } from './services/ApiService';
+import OrderDetailPage from './pages/OrderDetailPage';
 
 export default function App() {
+  const [accessToken] = useLocalStorage('accessToken', '');
+
+  useEffect(() => {
+    apiService.setAccessToken(accessToken);
+  }, [accessToken]);
+
   return (
     <div>
       <Reset />
@@ -37,7 +47,8 @@ export default function App() {
         <Route path="/products/:id" element={<ProductDetailPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/order" element={<OrderPage />} />
-        <Route path="/orders" element={<OrderListPage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/orders/:id" element={<OrderDetailPage />} />
         <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />

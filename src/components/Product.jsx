@@ -1,19 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from 'usehooks-ts';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
 import CartModal from './CartModal';
 
 export default function Product() {
+  const [accessToken] = useLocalStorage('accessToken');
+
+  const navigate = useNavigate();
+
   const shopStore = useShopStore();
 
   const [isPurchaseError, setPurchaseError] = useState(false);
 
   const [isCartError, setCartError] = useState(false);
 
-  const [showModal, setShowModal] = useState(false);
+  const [isError, setError] = useState(false);
 
-  const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const minusButtonClick = () => {
     shopStore.minusQuantityAndTotalPrice();
@@ -24,8 +29,19 @@ export default function Product() {
   };
 
   const purchaseButtonClick = () => {
+    if (!accessToken) {
+      navigate('/login');
+
+      return;
+    }
+
     if (shopStore.inventory < shopStore.quantity) {
       setPurchaseError(true);
+      return;
+    }
+
+    if (shopStore.amount < shopStore.totalPrice) {
+      setError(true);
       return;
     }
     navigate('/order');
@@ -100,6 +116,7 @@ export default function Product() {
           </p>
         ) : null}
       {showModal ? <CartModal setShowModal={setShowModal} /> : null}
+      {isError ? <p>❌잔액이 부족하여 상품 구매가 불가합니다❌</p> : null}
     </div>
   );
 }
