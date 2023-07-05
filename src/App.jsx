@@ -24,6 +24,8 @@ import AdminHeader from './components/AdminHeader';
 import AdminManagementUpdatePage from './pages/AdminManagementUpdatePage';
 import { apiService } from './services/ApiService';
 import OrderDetailPage from './pages/OrderDetailPage';
+import RedirectPage from './pages/RedirectPage';
+import OAuthPage from './pages/OAuthPage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -54,6 +56,8 @@ export default function App() {
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />
         <Route path="/admin/management" element={<AdminManagementPage />} />
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
+        <Route path="/oauth" element={<OAuthPage />} />
+        <Route path="/redirect" element={<RedirectPage />} />
       </Routes>
     </div>
   );

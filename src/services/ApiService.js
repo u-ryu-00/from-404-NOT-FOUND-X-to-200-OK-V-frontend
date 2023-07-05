@@ -7,6 +7,7 @@ const baseUrl = config.apiBaseUrl;
 
 export default class ApiService {
   constructor() {
+    // this.accessToken = window.localStorage.getItem('token') || '';
     this.accessToken = '';
   }
 
