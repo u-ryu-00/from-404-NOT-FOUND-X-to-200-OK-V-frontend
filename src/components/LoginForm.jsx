@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
 import { Link, useNavigate } from 'react-router-dom';
 import { shopStore } from '../stores/ShopStore';
+import KakaoLogin from './KakaoLogin';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ export default function LoginForm() {
         {shopStore.loginState === 'fail' ? (
           <p>아이디 혹은 비밀번호가 맞지 않습니다.</p>
         ) : null}
+        <KakaoLogin />
       </div>
       <button type="submit" onClick={() => {}}>Log in</button>
       <br />

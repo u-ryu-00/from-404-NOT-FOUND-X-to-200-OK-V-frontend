@@ -55,6 +55,10 @@ export default function Product() {
     setShowModal(true);
   };
 
+  // const onSubmit = async (data) => {
+
+  // };
+
   return (
     <div>
       <img src={shopStore.image} alt="상품 사진" style={{ width: '45rem', height: '45rem' }} />
@@ -117,6 +121,40 @@ export default function Product() {
         ) : null}
       {showModal ? <CartModal setShowModal={setShowModal} /> : null}
       {isError ? <p>❌잔액이 부족하여 상품 구매가 불가합니다❌</p> : null}
+      <p>Review</p>
+      <button type="submit">WRITE</button>
+      <form>
+        <div>
+          <label htmlFor="title">제목</label>
+          <input
+            id="input-title"
+          />
+        </div>
+        <div>
+          <label htmlFor="grade">평점</label>
+          <label>
+            <input type="radio" name="gener" defaultChecked="checked" />
+            ★★★★★
+          </label>
+          <label>
+            <input type="radio" name="gener" />
+            ★★★★
+          </label>
+          <label>
+            <input type="radio" name="gener" />
+            ★★★
+          </label>
+          <label>
+            <input type="radio" name="gener" />
+            ★★
+          </label>
+          <label>
+            <input type="radio" name="gener" />
+            ★
+          </label>
+        </div>
+        <input />
+      </form>
     </div>
   );
 }
