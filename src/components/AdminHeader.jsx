@@ -1,6 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function AdminHeader() {
+  const navigate = useNavigate();
+  const [, setAccessToken] = useLocalStorage('accessToken', '');
+  const [, setUserId] = useLocalStorage('userId', '');
+  const [, setPassword] = useLocalStorage('password');
+
+  const handleLogout = () => {
+    setAccessToken('');
+    setUserId('');
+    setPassword('');
+
+    navigate('/');
+  };
+
   return (
     <header>
       <nav>
@@ -19,7 +33,7 @@ export default function AdminHeader() {
             <Link to="/admin/management">상품 관리</Link>
           </li>
           <li>
-            로그아웃
+            <Link to="/" onClick={handleLogout}>로그아웃</Link>
           </li>
           <hr />
         </ul>

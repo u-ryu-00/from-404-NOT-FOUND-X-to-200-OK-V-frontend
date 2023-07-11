@@ -39,6 +39,7 @@ export default function OrderForm() {
 
   return (
     <div>
+      <p>주문서 작성</p>
       <img src={shopStore.image} alt="상품 사진" style={{ width: '45rem', height: '45rem' }} />
       <h1>
         상품 이름 :

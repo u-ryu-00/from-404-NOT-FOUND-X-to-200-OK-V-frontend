@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import { apiService } from '../services/ApiService';
 
 export default class ShopStore {
@@ -22,10 +23,15 @@ export default class ShopStore {
 
     this.createdAt = '';
 
+    this.orderState = '';
     this.registerProductState = '';
     this.deleteProductState = '';
 
     this.products = [];
+
+    this.carts = [];
+
+    this.requestOrder = this.requestOrder.bind(this);
   }
 
   subscribe(listener) {
@@ -49,6 +55,8 @@ export default class ShopStore {
 
       this.name = name;
       this.amount = amount;
+      this.userId = userId;
+      this.password = password;
       this.changeLoginState('success');
 
       return accessToken;
@@ -85,6 +93,16 @@ export default class ShopStore {
     this.signupState = state;
 
     this.publish();
+  }
+
+  async kakaoLogin(code) {
+    try {
+      const { accessToken } = await apiService.kakaoLogin(code);
+
+      return accessToken;
+    } catch (e) {
+      return '';
+    }
   }
 
   async fetchAccount() {
@@ -269,6 +287,83 @@ export default class ShopStore {
     this.deliveryMessage = deliveryMessage;
     this.createdAt = createdAt;
 
+    this.publish();
+  }
+
+  async requestCart({
+    userId,
+    productId,
+    image,
+    name,
+    description,
+    price,
+    totalPrice,
+    inventory,
+    quantity,
+  }) {
+    this.changeCartState('processing');
+    try {
+      await apiService.requestCart({
+        userId,
+        productId,
+        image,
+        name,
+        description,
+        price,
+        totalPrice,
+        inventory,
+        quantity,
+      });
+      this.changeCartState('success');
+    } catch (e) {
+      this.changeCartState('fail');
+    }
+  }
+
+  changeCartState(state) {
+    this.cartState = state;
+
+    this.publish();
+  }
+
+  async fetchCart(pageNumber) {
+    const data = await apiService.fetchCart(pageNumber);
+    this.carts = data.carts;
+    this.totalPages = data.totalPages;
+
+    this.publish();
+  }
+
+  plusCartQuantityAndTotalPrice(cart) {
+    const updatedCarts = this.carts.map((item) => {
+      if (item.cartId === cart.cartId) {
+        const updatedQuantity = item.quantity + 1;
+        const updatedTotalPrice = item.totalPrice + item.price;
+        return { ...item, quantity: updatedQuantity, totalPrice: updatedTotalPrice };
+      }
+      return item;
+    });
+    this.carts = updatedCarts;
+    this.publish();
+  }
+
+  minusCartQuantityAndTotalPrice(cart) {
+    const updatedCarts = this.carts.map((item) => {
+      if (item.cartId === cart.cartId) {
+        const updatedQuantity = item.quantity - 1;
+        const updatedTotalPrice = item.totalPrice - item.price;
+        return { ...item, quantity: updatedQuantity, totalPrice: updatedTotalPrice };
+      }
+      return item;
+    });
+    this.carts = updatedCarts;
+    this.publish();
+  }
+
+  async removeCartItem(cart) {
+    await apiService.deleteCartItem(cart.cartId);
+    const updatedCarts = this.carts.filter((item) => item.cartId !== cart.cartId);
+    this.carts = updatedCarts;
     this.publish();
   }
 }

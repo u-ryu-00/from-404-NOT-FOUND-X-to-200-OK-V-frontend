@@ -13,11 +13,10 @@ import SignupPage from './pages/SignupPage';
 import SignupCompletePage from './pages/SignupCompletePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
-import CartPage from './pages/Cartpage';
+import CartPage from './pages/CartPage';
 import OrderPage from './pages/OrderPage';
 import OrdersPage from './pages/OrdersPage';
 import AdminHomePage from './pages/AdminHomePage';
-import AdminLoginPage from './pages/AdminLoginPage';
 import AdminRegistrationPage from './pages/AdminRegistrationPage';
 import AdminManagementPage from './pages/AdminManagementPage';
 import AdminHeader from './components/AdminHeader';
@@ -25,7 +24,6 @@ import AdminManagementUpdatePage from './pages/AdminManagementUpdatePage';
 import { apiService } from './services/ApiService';
 import OrderDetailPage from './pages/OrderDetailPage';
 import RedirectPage from './pages/RedirectPage';
-import OAuthPage from './pages/OAuthPage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -34,12 +32,14 @@ export default function App() {
     apiService.setAccessToken(accessToken);
   }, [accessToken]);
 
+  const isAdmin = localStorage.getItem('userId') === `"${process.env.ADMINID}"`
+  && localStorage.getItem('password') === `"${process.env.ADMINPASSWORD}"`;
+
   return (
     <div>
       <Reset />
       <GlobalStyle />
-      <Header />
-      <AdminHeader />
+      {isAdmin ? <AdminHeader /> : <Header />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -52,11 +52,9 @@ export default function App() {
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/orders/:id" element={<OrderDetailPage />} />
         <Route path="/admin" element={<AdminHomePage />} />
-        <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />
         <Route path="/admin/management" element={<AdminManagementPage />} />
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
-        <Route path="/oauth" element={<OAuthPage />} />
         <Route path="/redirect" element={<RedirectPage />} />
       </Routes>
     </div>

@@ -18,7 +18,13 @@ export default function Product() {
 
   const [isError, setError] = useState(false);
 
+  const [isSoldoutError, setSoldoutError] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
+
+  const {
+    userId, productId, image, name, description, price, totalPrice, inventory, quantity,
+  } = shopStore;
 
   const minusButtonClick = () => {
     shopStore.minusQuantityAndTotalPrice();
@@ -35,6 +41,11 @@ export default function Product() {
       return;
     }
 
+    if (shopStore.inventory === 0) {
+      setSoldoutError(true);
+      return;
+    }
+
     if (shopStore.inventory < shopStore.quantity) {
       setPurchaseError(true);
       return;
@@ -47,12 +58,34 @@ export default function Product() {
     navigate('/order');
   };
 
-  const cartButtonClick = () => {
+  const cartButtonClick = async () => {
+    if (!accessToken) {
+      navigate('/login');
+
+      return;
+    }
+
+    if (shopStore.inventory === 0) {
+      setSoldoutError(true);
+      return;
+    }
     if (shopStore.inventory < shopStore.quantity) {
       setCartError(true);
       return;
     }
     setShowModal(true);
+
+    await shopStore.requestCart({
+      userId,
+      productId,
+      image,
+      name,
+      description,
+      price,
+      totalPrice,
+      inventory,
+      quantity,
+    });
   };
 
   // const onSubmit = async (data) => {
@@ -101,6 +134,10 @@ export default function Product() {
       >
         장바구니에 담기
       </button>
+      {isSoldoutError
+        ? (
+          <p>품절 상품입니다. 빠른 시일 내에 재입고 될 수 있도록 하겠습니다.</p>
+        ) : null}
       {isPurchaseError
         ? (
           <p>
