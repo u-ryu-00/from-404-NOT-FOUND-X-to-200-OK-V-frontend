@@ -7,7 +7,6 @@ const baseUrl = config.apiBaseUrl;
 
 export default class ApiService {
   constructor() {
-    // this.accessToken = window.localStorage.getItem('token') || '';
     this.accessToken = '';
   }
 
@@ -18,6 +17,7 @@ export default class ApiService {
   async postSession({ userId, password }) {
     const url = `${baseUrl}/session`;
     const { data } = await axios.post(url, { userId, password });
+
     return {
       accessToken: data.accessToken,
       name: data.name,
@@ -38,6 +38,26 @@ export default class ApiService {
     };
   }
 
+  async kakaoLogin(code) {
+    try {
+      const url = `${baseUrl}/accounts/auth`;
+
+      const response = await axios.get(url, {
+        params: {
+          code,
+        },
+      });
+
+      const accessToken = response.data;
+
+      return {
+        accessToken,
+      };
+    } catch (e) {
+      return '';
+    }
+  }
+
   async fetchAccount() {
     const url = `${baseUrl}/accounts/me`;
     const { data } = await axios.get(url, {
@@ -45,6 +65,7 @@ export default class ApiService {
         authorization: `Bearer ${this.accessToken}`,
       },
     });
+
     return {
       name: data.name,
       userId: data.userId,
@@ -159,6 +180,50 @@ export default class ApiService {
       deliveryMessage: data.deliveryMessage,
       createdAt: data.createdAt,
     };
+  }
+
+  async requestCart({
+    userId, productId, image, name, description, price, totalPrice, inventory, quantity,
+  }) {
+    const url = `${baseUrl}/cart`;
+    await axios.post(url, {
+      userId,
+      productId,
+      image,
+      name,
+      description,
+      price,
+      totalPrice,
+      inventory,
+      quantity,
+    }, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+  }
+
+  async fetchCart(pageNumber) {
+    const url = `${baseUrl}/cart`;
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+      params: {
+        page: pageNumber,
+      },
+    });
+    return data;
+  }
+
+  async deleteCartItem(cartId) {
+    const url = `${baseUrl}/cart/${cartId}`;
+
+    await axios.delete(url, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+    });
   }
 }
 

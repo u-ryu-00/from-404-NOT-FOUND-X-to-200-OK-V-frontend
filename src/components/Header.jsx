@@ -25,6 +25,8 @@ export default function Header() {
   const shopStore = useShopStore();
 
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+  const [, setUserId] = useLocalStorage('userId', '');
+  const [, setPassword] = useLocalStorage('password', '');
 
   useEffect(() => {
     if (accessToken) {
@@ -34,6 +36,9 @@ export default function Header() {
 
   const handleLogout = () => {
     setAccessToken('');
+    setUserId('');
+    setPassword('');
+
     navigate('/');
   };
 

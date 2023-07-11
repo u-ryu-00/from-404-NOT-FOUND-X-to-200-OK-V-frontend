@@ -10,6 +10,8 @@ export default function LoginForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [, setAccessToken] = useLocalStorage('accessToken', '');
+  const [, setUserId] = useLocalStorage('userId', '');
+  const [, setPassword] = useLocalStorage('password', '');
 
   const onSubmit = async (data) => {
     const { userId, password } = data;
@@ -17,6 +19,8 @@ export default function LoginForm() {
 
     if (accessToken) {
       setAccessToken(accessToken);
+      setUserId(userId);
+      setPassword(password);
 
       navigate('/');
     }
