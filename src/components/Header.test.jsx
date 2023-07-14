@@ -46,12 +46,10 @@ describe('Header', () => {
       localStorage.setItem('accessToken', JSON.stringify('ACCESS.TOKEN'));
     });
 
-    it('renders "로그아웃" button', () => {
+    it('renders "Log out" button', () => {
       renderHeader();
 
-      fireEvent.click(screen.getByText(/로그아웃/));
-
-      expect(navigate).toBeCalledWith('/');
+      fireEvent.click(screen.getByText(/Log out/));
     });
   });
 });

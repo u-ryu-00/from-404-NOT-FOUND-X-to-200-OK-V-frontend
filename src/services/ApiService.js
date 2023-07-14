@@ -225,6 +225,67 @@ export default class ApiService {
       },
     });
   }
+
+  async registerReview({
+    userId, productId, name, title, rating, content,
+  }) {
+    const url = `${baseUrl}/reviews`;
+    await axios.post(url, {
+      userId,
+      productId,
+      name,
+      title,
+      rating,
+      content,
+    }, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+  }
+
+  async fetchReviews(pageNumber) {
+    const url = `${baseUrl}/reviews`;
+    const { data } = await axios.get(url, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+      params: {
+        page: pageNumber,
+      },
+    });
+
+    return data;
+  }
+
+  async deleteReview(id) {
+    const url = `${baseUrl}/reviews/${id}`;
+    await axios.delete(url);
+  }
+
+  async updateReview({
+    id, title, rating, content,
+  }) {
+    const url = `${baseUrl}/reviews/${id}`;
+    await axios.patch(url, {
+      title, rating, content,
+    });
+  }
+
+  async fetchReview(id) {
+    const url = `${baseUrl}/reviews/${id}`;
+    const { data } = await axios.get(url);
+
+    return {
+      userId: data.userId,
+      reviewId: data.reviewId,
+      productId: data.productId,
+      name: data.name,
+      title: data.title,
+      rating: data.rating,
+      content: data.content,
+    };
+  }
 }
 
 export const apiService = new ApiService();

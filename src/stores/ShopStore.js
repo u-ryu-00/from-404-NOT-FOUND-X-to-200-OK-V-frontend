@@ -26,12 +26,18 @@ export default class ShopStore {
     this.orderState = '';
     this.registerProductState = '';
     this.deleteProductState = '';
+    this.deleteReviewState = '';
+    this.updateReviewState = '';
 
     this.products = [];
 
     this.carts = [];
 
+    this.reviews = [];
+
     this.requestOrder = this.requestOrder.bind(this);
+
+    this.reviewId = 0;
   }
 
   subscribe(listener) {
@@ -202,6 +208,7 @@ export default class ShopStore {
     this.changeDeleteProductState('processing');
     try {
       await apiService.deleteProduct(id);
+
       this.changeDeleteProductState('success');
       this.fetchProducts();
     } catch (e) {
@@ -364,6 +371,100 @@ export default class ShopStore {
     await apiService.deleteCartItem(cart.cartId);
     const updatedCarts = this.carts.filter((item) => item.cartId !== cart.cartId);
     this.carts = updatedCarts;
+    this.publish();
+  }
+
+  async registerReview({
+    userId,
+    productId,
+    name,
+    title,
+    rating,
+    content,
+  }) {
+    this.changeRegisterReviewState('processing');
+    try {
+      await apiService.registerReview({
+        userId,
+        productId,
+        name,
+        title,
+        rating,
+        content,
+      });
+      this.reviewedProducts.add(productId);
+
+      this.changeRegisterReviewState('success');
+    } catch (e) {
+      this.changeRegisterReviewState('fail');
+    }
+  }
+
+  changeRegisterReviewState(state) {
+    this.reviewState = state;
+
+    this.publish();
+  }
+
+  async fetchReviews(pageNumber) {
+    const data = await apiService.fetchReviews(pageNumber);
+
+    this.reviews = data.reviews;
+    this.totalPages = data.totalPages;
+
+    this.publish();
+  }
+
+  async deleteReview(id) {
+    this.changeDeleteReviewState('processing');
+    try {
+      await apiService.deleteReview(id);
+
+      this.changeDeleteReviewState('success');
+      this.fetchReviews();
+    } catch (e) {
+      this.changeDeleteReviewState('fail');
+    }
+  }
+
+  changeDeleteReviewState(state) {
+    this.deleteReviewState = state;
+
+    this.publish();
+  }
+
+  async updateReview({
+    id, title, rating, content,
+  }) {
+    this.changeUpdateReviewState('processing');
+    try {
+      await apiService.updateReview({
+        id, title, rating, content,
+      });
+      this.changeUpdateReviewState('success');
+    } catch (e) {
+      this.changeUpdateReviewState('fail');
+    }
+  }
+
+  changeUpdateReviewState(state) {
+    this.updateReviewState = state;
+
+    this.publish();
+  }
+
+  async fetchReview(id) {
+    const {
+      userId, reviewId, productId, name, title, rating, content,
+    } = await apiService.fetchReview(id);
+
+    this.userId = userId;
+    this.reviewId = reviewId;
+    this.productId = productId;
+    this.name = name;
+    this.title = title;
+    this.rating = rating;
+    this.content = content;
     this.publish();
   }
 }

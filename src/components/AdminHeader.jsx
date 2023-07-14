@@ -33,6 +33,9 @@ export default function AdminHeader() {
             <Link to="/admin/management">상품 관리</Link>
           </li>
           <li>
+            <Link to="/admin/review">리뷰 관리</Link>
+          </li>
+          <li>
             <Link to="/" onClick={handleLogout}>로그아웃</Link>
           </li>
           <hr />
