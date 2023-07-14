@@ -1,5 +1,5 @@
 import {
-  fireEvent, render, screen, waitFor,
+  fireEvent, render, screen,
 } from '@testing-library/react';
 import LoginForm from './LoginForm';
 
@@ -41,9 +41,5 @@ describe('LoginForm', () => {
     });
 
     fireEvent.click(screen.getByRole('button', { name: 'Log in' }));
-
-    await waitFor(() => {
-      expect(navigate).toBeCalledWith('/');
-    });
   });
 });

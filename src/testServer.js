@@ -146,7 +146,43 @@ const server = setupServer(
         quantity: 1,
       },
     ],
-
+  }))),
+  rest.post(`${baseUrl}/reviews`, async (req, res, ctx) => res(ctx.json({
+    userId: 'a111',
+    productId: 1,
+    name: '소음이 적은 레이저 기계식 키보드',
+    title: '만족!',
+    rating: 4,
+    content: '알록달록해서 마음에 드네요.',
+  }))),
+  rest.get(`${baseUrl}/reviews`, async (req, res, ctx) => res(ctx.json({
+    reviews: [
+      {
+        userId: 'a111',
+        productId: 1,
+        name: '소음이 적은 레이저 기계식 키보드',
+        title: '만족!',
+        rating: 4,
+        content: '알록달록해서 마음에 드네요.',
+      },
+      {
+        userId: 'a111',
+        productId: 2,
+        name: '거북이 인형',
+        title: '만족!',
+        rating: 4,
+        content: '너무 귀여워요.',
+      },
+    ],
+  }))),
+  rest.get(`${baseUrl}/reviews/1`, async (req, res, ctx) => res(ctx.json({
+    userId: 'a111',
+    reviewId: 1,
+    productId: 1,
+    name: '소음이 적은 레이저 기계식 키보드',
+    title: '만족!',
+    rating: 4,
+    content: '알록달록해서 마음에 드네요.',
   }))),
 );
 

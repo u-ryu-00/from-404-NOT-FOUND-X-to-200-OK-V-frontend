@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
+import { useForm } from 'react-hook-form';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
 import CartModal from './CartModal';
 
 export default function Product() {
+  const { register, handleSubmit } = useForm();
+
   const [accessToken] = useLocalStorage('accessToken');
 
   const navigate = useNavigate();
@@ -25,6 +28,8 @@ export default function Product() {
   const {
     userId, productId, image, name, description, price, totalPrice, inventory, quantity,
   } = shopStore;
+
+  const { reviews } = shopStore;
 
   const minusButtonClick = () => {
     shopStore.minusQuantityAndTotalPrice();
@@ -88,9 +93,47 @@ export default function Product() {
     });
   };
 
-  // const onSubmit = async (data) => {
+  const { orders } = shopStore;
 
-  // };
+  const onSubmit = async (data) => {
+    if (!accessToken) {
+      navigate('/login');
+
+      return;
+    }
+
+    const foundOrder = orders.find(
+      (order) => Number(order.productId) === Number(shopStore.productId),
+    );
+
+    if (!foundOrder) {
+      alert('상품을 구매하지 않아 리뷰를 작성하실 수 없습니다.');
+      return;
+    }
+
+    const {
+      title, rating, content,
+    } = data;
+
+    await shopStore.registerReview({
+      userId,
+      productId,
+      name,
+      title,
+      rating,
+      content,
+    });
+
+    shopStore.fetchReviews();
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    await shopStore.deleteReview(reviewId);
+  };
+
+  const handleEditReview = (reviewId) => {
+    navigate(`/products/${reviewId}/edit/review`);
+  };
 
   return (
     <div>
@@ -159,39 +202,87 @@ export default function Product() {
       {showModal ? <CartModal setShowModal={setShowModal} /> : null}
       {isError ? <p>❌잔액이 부족하여 상품 구매가 불가합니다❌</p> : null}
       <p>Review</p>
-      <button type="submit">WRITE</button>
-      <form>
-        <div>
-          <label htmlFor="title">제목</label>
-          <input
-            id="input-title"
-          />
-        </div>
-        <div>
-          <label htmlFor="grade">평점</label>
-          <label>
-            <input type="radio" name="gener" defaultChecked="checked" />
-            ★★★★★
-          </label>
-          <label>
-            <input type="radio" name="gener" />
-            ★★★★
-          </label>
-          <label>
-            <input type="radio" name="gener" />
-            ★★★
-          </label>
-          <label>
-            <input type="radio" name="gener" />
-            ★★
-          </label>
-          <label>
-            <input type="radio" name="gener" />
-            ★
-          </label>
-        </div>
-        <input />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label htmlFor="title">제목</label>
+        <input
+          id="title"
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...register('title', { required: true })}
+        />
+        <label htmlFor="rating">별점</label>
+        <input
+          id="rating"
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...register('rating', { required: true })}
+        />
+        {/* <label htmlFor="rating">평점</label> */}
+        {/* <label>
+          <input type="radio" name="gener" defaultChecked="checked" />
+          ★★★★★
+        </label>
+        <label>
+          <input type="radio" name="gener" />
+          ★★★★
+        </label>
+        <label>
+          <input type="radio" name="gener" />
+          ★★★
+        </label>
+        <label>
+          <input type="radio" name="gener" />
+          ★★
+        </label>
+        <label>
+          <input type="radio" name="gener" />
+          ★
+        </label> */}
+        <label htmlFor="content">리뷰 내용</label>
+        <input
+          id="content"
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...register('content', { required: true })}
+        />
+        <button type="submit">WRITE</button>
       </form>
+      <div>
+        {reviews.map((review) => (
+          <div key={review.reviewId}>
+            {Number(shopStore.productId) === Number(review.productId)
+              ? (
+                <>
+                  <hr />
+                  <h1>{`리뷰아이디 : ${review.reviewId}`}</h1>
+                  <h1>{`유저아이디 : ${review.userId}`}</h1>
+                  <h1>{`상품아이디 : ${review.productId}`}</h1>
+                  <h1>{`상품이름 : ${review.name}`}</h1>
+                  <h1>{`리뷰 제목 : ${review.title}`}</h1>
+                  <h1>{`별점 : ${review.rating}`}</h1>
+                  <h1>{`리뷰 내용 : ${review.content}`}</h1>
+                  {shopStore.userId === review.userId
+                    ? (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => handleEditReview(review.reviewId)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteReview(review.reviewId)}
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    ) : null}
+                  <hr />
+                </>
+              ) : null}
+
+          </div>
+        ))}
+
+      </div>
     </div>
   );
 }

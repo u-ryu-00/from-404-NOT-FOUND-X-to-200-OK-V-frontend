@@ -90,6 +90,7 @@ export default function OrderForm() {
         </p>
         <button type="submit">결제하기</button>
       </form>
+      <p />
     </div>
   );
 }

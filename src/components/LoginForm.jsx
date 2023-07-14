@@ -1,12 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { shopStore } from '../stores/ShopStore';
 import KakaoLogin from './KakaoLogin';
 
 export default function LoginForm() {
-  const navigate = useNavigate();
-
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const [, setAccessToken] = useLocalStorage('accessToken', '');
@@ -22,7 +20,7 @@ export default function LoginForm() {
       setUserId(userId);
       setPassword(password);
 
-      navigate('/');
+      window.location.href = '/';
     }
   };
 

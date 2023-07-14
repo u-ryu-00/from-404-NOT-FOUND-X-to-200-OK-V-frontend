@@ -24,6 +24,8 @@ import AdminManagementUpdatePage from './pages/AdminManagementUpdatePage';
 import { apiService } from './services/ApiService';
 import OrderDetailPage from './pages/OrderDetailPage';
 import RedirectPage from './pages/RedirectPage';
+import EditReviewPage from './pages/EditReviewPage';
+import AdminReviewManagementPage from './pages/AdminReviewManagementPage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -47,6 +49,7 @@ export default function App() {
         <Route path="/signup/complete" element={<SignupCompletePage />} />
         <Route path="/products" element={<ShopPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
+        <Route path="/products/:id/edit/review" element={<EditReviewPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/order" element={<OrderPage />} />
         <Route path="/orders" element={<OrdersPage />} />
@@ -55,6 +58,7 @@ export default function App() {
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />
         <Route path="/admin/management" element={<AdminManagementPage />} />
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
+        <Route path="/admin/review" element={<AdminReviewManagementPage />} />
         <Route path="/redirect" element={<RedirectPage />} />
       </Routes>
     </div>

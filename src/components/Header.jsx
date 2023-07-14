@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
 import styled from 'styled-components';
@@ -20,8 +20,6 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 export default function Header() {
-  const navigate = useNavigate();
-
   const shopStore = useShopStore();
 
   const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
@@ -39,7 +37,7 @@ export default function Header() {
     setUserId('');
     setPassword('');
 
-    navigate('/');
+    window.location.href = '/';
   };
 
   return (
@@ -65,7 +63,7 @@ export default function Header() {
               <Account />
             </li>
             <li>
-              <Link to="/" onClick={handleLogout}>로그아웃</Link>
+              <Link to="/" onClick={handleLogout}>Log out</Link>
             </li>
           </>
         ) : (
