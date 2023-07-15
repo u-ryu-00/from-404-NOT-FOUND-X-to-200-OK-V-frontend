@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from 'usehooks-ts';
 import useShopStore from '../hooks/useShopStore';
 import Product from '../components/Product';
 import Pagination from '../components/Pagination';
@@ -13,6 +14,8 @@ export default function ProductDetailPage() {
 
   const [page, setPage] = useState('');
 
+  const [accessToken] = useLocalStorage('accessToken', '');
+
   useEffect(() => {
     shopStore.fetchProduct(shopStore.productId);
 
@@ -20,7 +23,9 @@ export default function ProductDetailPage() {
 
     shopStore.fetchReviews(page);
 
-    shopStore.fetchOrders();
+    if (accessToken) {
+      shopStore.fetchOrders();
+    }
   }, [page]);
 
   const { totalPages } = shopStore;
