@@ -38,6 +38,8 @@ export default class ShopStore {
     this.requestOrder = this.requestOrder.bind(this);
 
     this.reviewId = 0;
+
+    this.imageUrl = '';
   }
 
   subscribe(listener) {
@@ -465,6 +467,13 @@ export default class ShopStore {
     this.title = title;
     this.rating = rating;
     this.content = content;
+    this.publish();
+  }
+
+  async uploadImage(imageFile) {
+    const imageUrl = await apiService.upload(imageFile);
+
+    this.imageUrl = imageUrl;
     this.publish();
   }
 }

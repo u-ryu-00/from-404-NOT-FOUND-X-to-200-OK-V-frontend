@@ -1,21 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import useShopStore from '../hooks/useShopStore';
 
 export default function AdminRegistrationForm() {
-  const { watch, register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const shopStore = useShopStore();
 
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const product = watch('image');
-
-    const file = product[0];
-
-    const image = URL.createObjectURL(file);
+    const image = shopStore.imageUrl;
 
     const {
       name, description, price, inventory,
@@ -25,19 +20,14 @@ export default function AdminRegistrationForm() {
       name, description, image, price, inventory,
     });
 
+    shopStore.imageUrl = '';
+
     navigate('/admin/management');
   };
 
-  const [productPreview, setProductPreview] = useState('');
-
-  const product = watch('image');
-
-  useEffect(() => {
-    if (product && product.length > 0) {
-      const file = product[0];
-      setProductPreview(URL.createObjectURL(file));
-    }
-  }, [product]);
+  const handleImageChange = async (e) => {
+    await shopStore.uploadImage(e.target.files[0]);
+  };
 
   return (
     <div>
@@ -64,11 +54,10 @@ export default function AdminRegistrationForm() {
           <input
             id="input-product-image"
             type="file"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('image', { required: true })}
+            onChange={handleImageChange}
           />
         </div>
-        <img src={productPreview} alt="이미지" />
+        <img src={shopStore.imageUrl} alt="이미지" />
         <div>
           <label htmlFor="input-product-price">상품 가격</label>
           <input
