@@ -7,7 +7,9 @@ import numberFormat from '../utils/numberFormat';
 import CartModal from './CartModal';
 
 export default function Product() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register, handleSubmit, setValue, reset,
+  } = useForm();
 
   const [accessToken] = useLocalStorage('accessToken');
 
@@ -112,8 +114,17 @@ export default function Product() {
     }
 
     const {
-      title, rating, content,
+      title, content,
     } = data;
+
+    const rating = shopStore.ratingValue;
+
+    console.log(rating);
+
+    if (!rating) {
+      alert('별점을 선택해주세요.');
+      return;
+    }
 
     await shopStore.registerReview({
       userId,
@@ -125,6 +136,8 @@ export default function Product() {
     });
 
     shopStore.fetchReviews();
+
+    reset();
   };
 
   const handleDeleteReview = async (reviewId) => {
@@ -133,6 +146,12 @@ export default function Product() {
 
   const handleEditReview = (reviewId) => {
     navigate(`/products/${reviewId}/edit/review`);
+  };
+
+  const handleRatingChange = (event) => {
+    const selectedRating = event.target.value;
+    setValue('rating', selectedRating);
+    shopStore.setRating(selectedRating);
   };
 
   return (
@@ -210,32 +229,26 @@ export default function Product() {
           {...register('title', { required: true })}
         />
         <label htmlFor="rating">별점</label>
-        <input
-          id="rating"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('rating', { required: true })}
-        />
-        {/* <label htmlFor="rating">평점</label> */}
-        {/* <label>
-          <input type="radio" name="gener" defaultChecked="checked" />
+        <label>
+          <input type="radio" name="rating" value="5" onChange={handleRatingChange} />
           ★★★★★
         </label>
         <label>
-          <input type="radio" name="gener" />
+          <input type="radio" name="rating" value="4" onChange={handleRatingChange} />
           ★★★★
         </label>
         <label>
-          <input type="radio" name="gener" />
+          <input type="radio" name="rating" value="3" onChange={handleRatingChange} />
           ★★★
         </label>
         <label>
-          <input type="radio" name="gener" />
+          <input type="radio" name="rating" value="2" onChange={handleRatingChange} />
           ★★
         </label>
         <label>
-          <input type="radio" name="gener" />
+          <input type="radio" name="rating" value="1" onChange={handleRatingChange} />
           ★
-        </label> */}
+        </label>
         <label htmlFor="content">리뷰 내용</label>
         <input
           id="content"
@@ -256,7 +269,17 @@ export default function Product() {
                   <h1>{`상품아이디 : ${review.productId}`}</h1>
                   <h1>{`상품이름 : ${review.name}`}</h1>
                   <h1>{`리뷰 제목 : ${review.title}`}</h1>
-                  <h1>{`별점 : ${review.rating}`}</h1>
+                  {/* <h1>{`별점 : ${review.rating}`}</h1> */}
+                  <h1>
+                    별점:
+                    {' '}
+                    {' '}
+                    {Array.from({ length: review.rating }, (_, index) => (
+                      <span key={index} role="img" aria-label="star">
+                        ★
+                      </span>
+                    ))}
+                  </h1>
                   <h1>{`리뷰 내용 : ${review.content}`}</h1>
                   {shopStore.userId === review.userId
                     ? (

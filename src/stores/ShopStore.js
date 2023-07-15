@@ -40,6 +40,8 @@ export default class ShopStore {
     this.reviewId = 0;
 
     this.imageUrl = '';
+
+    this.ratingValue = '';
   }
 
   subscribe(listener) {
@@ -474,6 +476,11 @@ export default class ShopStore {
     const imageUrl = await apiService.upload(imageFile);
 
     this.imageUrl = imageUrl;
+    this.publish();
+  }
+
+  setRating(value) {
+    this.ratingValue = value;
     this.publish();
   }
 }
