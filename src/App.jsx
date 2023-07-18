@@ -26,6 +26,7 @@ import OrderDetailPage from './pages/OrderDetailPage';
 import RedirectPage from './pages/RedirectPage';
 import EditReviewPage from './pages/EditReviewPage';
 import AdminReviewManagementPage from './pages/AdminReviewManagementPage';
+import KakaoPayment from './components/KakaoPayment';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -60,6 +61,7 @@ export default function App() {
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
         <Route path="/admin/review" element={<AdminReviewManagementPage />} />
         <Route path="/redirect" element={<RedirectPage />} />
+        {/* <Route path="/kakaoPay" element={<KakaoPayment />} /> */}
       </Routes>
     </div>
   );
