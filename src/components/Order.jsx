@@ -1,8 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import useShopStore from '../hooks/useShopStore';
 import dateTimeFormat from '../utils/dateTimeFormat';
 
 export default function Order() {
   const shopStore = useShopStore();
+
+  const navigate = useNavigate();
+
+  const handleClick = (productId) => {
+    navigate(`/products/${productId}`);
+  };
 
   return (
     <div>
@@ -47,6 +54,9 @@ export default function Order() {
         {' '}
         {shopStore.deliveryMessage}
       </h1>
+      <button type="button" onClick={() => handleClick(shopStore.productId)}>
+        리뷰 작성하러 가기
+      </button>
     </div>
   );
 }

@@ -119,12 +119,12 @@ export default function Product() {
 
     const rating = shopStore.ratingValue;
 
-    console.log(rating);
-
     if (!rating) {
       alert('별점을 선택해주세요.');
       return;
     }
+
+    const reviewImage = shopStore.imageUrl;
 
     await shopStore.registerReview({
       userId,
@@ -133,11 +133,14 @@ export default function Product() {
       title,
       rating,
       content,
+      reviewImage,
     });
 
     shopStore.fetchReviews();
 
     reset();
+
+    shopStore.imageUrl = '';
   };
 
   const handleDeleteReview = async (reviewId) => {
@@ -152,6 +155,10 @@ export default function Product() {
     const selectedRating = event.target.value;
     setValue('rating', selectedRating);
     shopStore.setRating(selectedRating);
+  };
+
+  const handleImageChange = async (e) => {
+    await shopStore.uploadImage(e.target.files[0]);
   };
 
   return (
@@ -222,39 +229,54 @@ export default function Product() {
       {isError ? <p>❌잔액이 부족하여 상품 구매가 불가합니다❌</p> : null}
       <p>Review</p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="title">제목</label>
-        <input
-          id="title"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('title', { required: true })}
-        />
-        <label htmlFor="rating">별점</label>
-        <label>
-          <input type="radio" name="rating" value="5" onChange={handleRatingChange} />
-          ★★★★★
-        </label>
-        <label>
-          <input type="radio" name="rating" value="4" onChange={handleRatingChange} />
-          ★★★★
-        </label>
-        <label>
-          <input type="radio" name="rating" value="3" onChange={handleRatingChange} />
-          ★★★
-        </label>
-        <label>
-          <input type="radio" name="rating" value="2" onChange={handleRatingChange} />
-          ★★
-        </label>
-        <label>
-          <input type="radio" name="rating" value="1" onChange={handleRatingChange} />
-          ★
-        </label>
-        <label htmlFor="content">리뷰 내용</label>
-        <input
-          id="content"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('content', { required: true })}
-        />
+        <div>
+          <label htmlFor="title">제목</label>
+          <input
+            id="title"
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...register('title', { required: true })}
+          />
+        </div>
+        <div>
+          <label htmlFor="rating">별점</label>
+          <label>
+            <input type="radio" name="rating" value="5" onChange={handleRatingChange} />
+            ★★★★★
+          </label>
+          <label>
+            <input type="radio" name="rating" value="4" onChange={handleRatingChange} />
+            ★★★★
+          </label>
+          <label>
+            <input type="radio" name="rating" value="3" onChange={handleRatingChange} />
+            ★★★
+          </label>
+          <label>
+            <input type="radio" name="rating" value="2" onChange={handleRatingChange} />
+            ★★
+          </label>
+          <label>
+            <input type="radio" name="rating" value="1" onChange={handleRatingChange} />
+            ★
+          </label>
+        </div>
+        <div>
+          <label htmlFor="content">리뷰 내용</label>
+          <input
+            id="content"
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...register('content', { required: true })}
+          />
+        </div>
+        <div>
+          <label htmlFor="image">리뷰 이미지</label>
+          <input
+            id="image"
+            type="file"
+            onChange={handleImageChange}
+          />
+        </div>
+        <img src={shopStore.imageUrl} alt="이미지" />
         <button type="submit">WRITE</button>
       </form>
       <div>
@@ -269,7 +291,6 @@ export default function Product() {
                   <h1>{`상품아이디 : ${review.productId}`}</h1>
                   <h1>{`상품이름 : ${review.name}`}</h1>
                   <h1>{`리뷰 제목 : ${review.title}`}</h1>
-                  {/* <h1>{`별점 : ${review.rating}`}</h1> */}
                   <h1>
                     별점:
                     {' '}
@@ -281,6 +302,7 @@ export default function Product() {
                     ))}
                   </h1>
                   <h1>{`리뷰 내용 : ${review.content}`}</h1>
+                  <img src={review.reviewImage} alt="리뷰 이미지" style={{ width: '10rem', height: '10rem' }} />
                   {shopStore.userId === review.userId
                     ? (
                       <div>

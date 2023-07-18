@@ -1,17 +1,23 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
+import RedirectModal from './RedirectModal';
 
 export default function OrderForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const shopStore = useShopStore();
 
-  const navigate = useNavigate();
-
   const {
-    userId, productId, name, description, image, price, inventory, quantity,
+    userId,
+    productId,
+    name,
+    description,
+    image,
+    price,
+    inventory,
+    quantity,
   } = shopStore;
 
   const onSubmit = async (data) => {
@@ -19,7 +25,22 @@ export default function OrderForm() {
       receiver, address, phoneNumber, deliveryMessage,
     } = data;
 
-    await shopStore.requestOrder({
+    // await shopStore.requestOrder({
+    //   userId,
+    //   productId,
+    //   name,
+    //   description,
+    //   image,
+    //   price,
+    //   inventory,
+    //   quantity,
+    //   receiver,
+    //   address,
+    //   phoneNumber,
+    //   deliveryMessage,
+    // });
+
+    await shopStore.requestKakaoPay({
       userId,
       productId,
       name,
@@ -34,7 +55,7 @@ export default function OrderForm() {
       deliveryMessage,
     });
 
-    navigate('/orders');
+    window.open(shopStore.kakaoPayPcUrl, '_blank', 'width=600,height=400,resizable=yes');
   };
 
   return (
@@ -51,7 +72,7 @@ export default function OrderForm() {
         {' '}
         {shopStore.quantity}
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} action="kakao.jsp">
         <label htmlFor="receiver">받으시는 분*</label>
         <input
           id="receiver"
@@ -89,8 +110,9 @@ export default function OrderForm() {
           원
         </p>
         <button type="submit">결제하기</button>
+        <button type="submit">카카오페이로 결제</button>
+        {/* <img src={KakaoPaymentLogo} alt="카카오페이로고" /> */}
       </form>
-      <p />
     </div>
   );
 }

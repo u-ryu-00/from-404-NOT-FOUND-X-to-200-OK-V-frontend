@@ -28,6 +28,7 @@ export default class ShopStore {
     this.deleteProductState = '';
     this.deleteReviewState = '';
     this.updateReviewState = '';
+    this.kakaoPayState = '';
 
     this.products = [];
 
@@ -42,6 +43,8 @@ export default class ShopStore {
     this.imageUrl = '';
 
     this.ratingValue = '';
+
+    this.kakaoPayPcUrl = '';
   }
 
   subscribe(listener) {
@@ -385,6 +388,7 @@ export default class ShopStore {
     title,
     rating,
     content,
+    reviewImage,
   }) {
     this.changeRegisterReviewState('processing');
     try {
@@ -395,6 +399,7 @@ export default class ShopStore {
         title,
         rating,
         content,
+        reviewImage,
       });
       this.reviewedProducts.add(productId);
 
@@ -414,6 +419,7 @@ export default class ShopStore {
     const data = await apiService.fetchReviews(pageNumber);
 
     this.reviews = data.reviews;
+
     this.totalPages = data.totalPages;
 
     this.publish();
@@ -438,12 +444,12 @@ export default class ShopStore {
   }
 
   async updateReview({
-    id, title, rating, content,
+    id, title, rating, content, reviewImage,
   }) {
     this.changeUpdateReviewState('processing');
     try {
       await apiService.updateReview({
-        id, title, rating, content,
+        id, title, rating, content, reviewImage,
       });
       this.changeUpdateReviewState('success');
     } catch (e) {
@@ -459,7 +465,7 @@ export default class ShopStore {
 
   async fetchReview(id) {
     const {
-      userId, reviewId, productId, name, title, rating, content,
+      userId, reviewId, productId, name, title, rating, content, reviewImage,
     } = await apiService.fetchReview(id);
 
     this.userId = userId;
@@ -469,6 +475,7 @@ export default class ShopStore {
     this.title = title;
     this.rating = rating;
     this.content = content;
+    this.reviewImage = reviewImage;
     this.publish();
   }
 
@@ -481,6 +488,56 @@ export default class ShopStore {
 
   setRating(value) {
     this.ratingValue = value;
+    this.publish();
+  }
+
+  setAmount(value) {
+    this.amount -= value;
+
+    this.publish();
+  }
+
+  async requestKakaoPay({
+    userId,
+    productId,
+    name,
+    description,
+    image,
+    price,
+    inventory,
+    quantity,
+    receiver,
+    address,
+    phoneNumber,
+    deliveryMessage,
+  }) {
+    this.changeKakaoPayState('processing');
+    try {
+      this.kakaoPayPcUrl = await apiService.requestKakaoPay({
+        userId,
+        productId,
+        name,
+        description,
+        image,
+        price,
+        inventory,
+        quantity,
+        receiver,
+        address,
+        phoneNumber,
+        deliveryMessage,
+      });
+
+      console.log('리턴', this.kakaoPayPcUrl);
+      this.changeKakaoPayState('success');
+    } catch (e) {
+      this.changeKakaoPayState('fail');
+    }
+  }
+
+  changeKakaoPayState(state) {
+    this.kakaoPayState = state;
+
     this.publish();
   }
 }

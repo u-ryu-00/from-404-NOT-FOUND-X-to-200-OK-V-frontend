@@ -16,10 +16,10 @@ export default function EditReviewForm() {
 
       await shopStore.fetchReview(id);
 
-      const { title, content } = shopStore;
+      const { title, content, reviewImage } = shopStore;
       setValue('title', title);
-      // setValue('rating', rating);
       setValue('content', content);
+      setValue('reviewImage', reviewImage);
     };
 
     fetchReview();
@@ -27,20 +27,20 @@ export default function EditReviewForm() {
 
   const onSubmit = async (data) => {
     const {
-      title, content,
+      title, content, reviewImage,
     } = data;
 
     const rating = shopStore.ratingValue;
 
     if (!rating) {
-      alert('별점을 선택해주세요.'); // Display alert message if no rating is selected
+      alert('별점을 선택해주세요.');
       return;
     }
 
     const id = window.location.pathname.split('/').splice(2, 1);
 
     await shopStore.updateReview({
-      id, title, rating, content,
+      id, title, rating, content, reviewImage,
     });
 
     navigate(`/products/${shopStore.productId}`);
@@ -124,6 +124,14 @@ export default function EditReviewForm() {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register('content', { required: true })}
           />
+          <div>
+            <label htmlFor="reviewImage">리뷰 이미지</label>
+            <inputa
+              id="reviewImage"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('reviewImage', { required: true })}
+            />
+          </div>
         </div>
         <button type="submit">WRITE</button>
       </form>

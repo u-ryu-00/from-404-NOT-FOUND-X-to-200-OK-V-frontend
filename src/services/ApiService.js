@@ -229,7 +229,7 @@ export default class ApiService {
   }
 
   async registerReview({
-    userId, productId, name, title, rating, content,
+    userId, productId, name, title, rating, content, reviewImage,
   }) {
     const url = `${baseUrl}/reviews`;
     await axios.post(url, {
@@ -239,6 +239,7 @@ export default class ApiService {
       title,
       rating,
       content,
+      reviewImage,
     }, {
       headers: {
         authorization: `Bearer ${this.accessToken}`,
@@ -266,11 +267,11 @@ export default class ApiService {
   }
 
   async updateReview({
-    id, title, rating, content,
+    id, title, rating, content, reviewImage,
   }) {
     const url = `${baseUrl}/reviews/${id}`;
     await axios.patch(url, {
-      title, rating, content,
+      title, rating, content, reviewImage,
     });
   }
 
@@ -286,6 +287,7 @@ export default class ApiService {
       title: data.title,
       rating: data.rating,
       content: data.content,
+      reviewImage: data.reviewImage,
     };
   }
 
@@ -307,6 +309,43 @@ export default class ApiService {
 
     return data.url;
   }
+
+  async requestKakaoPay({
+    userId, productId, name, description, image, price, inventory, quantity,
+    receiver, address, phoneNumber, deliveryMessage,
+  }) {
+    const url = `${baseUrl}/orders/ready`;
+    const { data } = await axios.post(url, {
+      userId,
+      productId,
+      name,
+      description,
+      image,
+      price,
+      inventory,
+      quantity,
+      receiver,
+      address,
+      phoneNumber,
+      deliveryMessage,
+    }, {
+      headers: {
+        authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+
+    return data.next_redirect_pc_url;
+  }
+
+  // async fetchKakaoPay() {
+  //   const url = `${baseUrl}/orders/response`;
+  //   const { data } = await axios.get(url);
+
+  //   return {
+  //     createdAt: data.createdAt,
+
+  //   };
+  // }
 }
 
 export const apiService = new ApiService();
