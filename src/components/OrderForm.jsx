@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
-import RedirectModal from './RedirectModal';
+import KakaoPaymentLogo from '../../img/payment_icon_yellow_medium.png';
 
 export default function OrderForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -55,7 +54,7 @@ export default function OrderForm() {
       deliveryMessage,
     });
 
-    window.open(shopStore.kakaoPayPcUrl, '_blank', 'width=600,height=400,resizable=yes');
+    window.open(shopStore.kakaoPayPcUrl, '_self');
   };
 
   return (
@@ -110,8 +109,7 @@ export default function OrderForm() {
           원
         </p>
         <button type="submit">결제하기</button>
-        <button type="submit">카카오페이로 결제</button>
-        {/* <img src={KakaoPaymentLogo} alt="카카오페이로고" /> */}
+        <button type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></button>
       </form>
     </div>
   );

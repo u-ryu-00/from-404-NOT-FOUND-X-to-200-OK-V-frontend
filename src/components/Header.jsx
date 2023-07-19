@@ -15,7 +15,7 @@ const StyledNavLink = styled(NavLink)`
     left: 0;
     width: 100%;
     height: 0.3rem;
-    background-color: #22DAAB
+    background-color: #303030
   }
 `;
 
