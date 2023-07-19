@@ -337,15 +337,23 @@ export default class ApiService {
     return data.next_redirect_pc_url;
   }
 
-  // async fetchKakaoPay() {
-  //   const url = `${baseUrl}/orders/response`;
-  //   const { data } = await axios.get(url);
+  async approveKakaoPay(pg_Token) {
+    try {
+      const url = `${baseUrl}/orders/success`;
 
-  //   return {
-  //     createdAt: data.createdAt,
+      const response = await axios.get(url, {
+        params: {
+          pg_Token,
+        },
+      });
+      const responseEntity = response.data;
 
-  //   };
-  // }
+      return {
+        responseEntity,
+      };
+    } catch (e) {
+      return '';
+    }
+  }
 }
-
 export const apiService = new ApiService();

@@ -39,7 +39,6 @@ export default function Cart() {
 
     shopStore.setAmount(totalAmount);
 
-
     const insufficientInventory = carts.some((cart) => cart.quantity > cart.inventory);
     if (insufficientInventory) {
       alert('상품 재고보다 더 많은 수량을 선택하셨습니다.');
@@ -195,6 +194,7 @@ export default function Cart() {
                 {...register('deliveryMessage', { required: true })}
               />
               <button type="submit">결제하기</button>
+              <button type="submit">카카오페이로 결제</button>
             </form>
           </>
         )}

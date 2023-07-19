@@ -528,7 +528,6 @@ export default class ShopStore {
         deliveryMessage,
       });
 
-      console.log('리턴', this.kakaoPayPcUrl);
       this.changeKakaoPayState('success');
     } catch (e) {
       this.changeKakaoPayState('fail');
@@ -539,6 +538,16 @@ export default class ShopStore {
     this.kakaoPayState = state;
 
     this.publish();
+  }
+
+  async approveKakaoPay(pg_Token) {
+    try {
+      const { responseEntity } = await apiService.approveKakaoPay(pg_Token);
+
+      return responseEntity;
+    } catch (e) {
+      return '';
+    }
   }
 }
 
