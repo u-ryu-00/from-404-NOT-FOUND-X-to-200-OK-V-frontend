@@ -283,7 +283,7 @@ export default class ShopStore {
       orderId,
       productId, name, description, image, price, inventory, quantity,
       totalPrice,
-      receiver, address, phoneNumber, deliveryMessage, createdAt,
+      receiver, address, zonecode, phoneNumber, deliveryMessage, createdAt,
     } = await apiService.fetchOrder(id);
 
     this.orderId = orderId;
@@ -297,6 +297,7 @@ export default class ShopStore {
     this.totalPrice = totalPrice;
     this.receiver = receiver;
     this.address = address;
+    this.zonecode = zonecode;
     this.phoneNumber = phoneNumber;
     this.deliveryMessage = deliveryMessage;
     this.createdAt = createdAt;
@@ -508,6 +509,7 @@ export default class ShopStore {
     quantity,
     receiver,
     address,
+    zonecode,
     phoneNumber,
     deliveryMessage,
     totalPrice,
@@ -525,6 +527,7 @@ export default class ShopStore {
         quantity,
         receiver,
         address,
+        zonecode,
         phoneNumber,
         deliveryMessage,
         totalPrice,
