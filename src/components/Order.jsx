@@ -45,6 +45,11 @@ export default function Order() {
         {shopStore.address}
       </h1>
       <h1>
+        우편번호 :
+        {' '}
+        {shopStore.zonecode}
+      </h1>
+      <h1>
         휴대전화 :
         {' '}
         {shopStore.phoneNumber}

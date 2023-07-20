@@ -1,6 +1,7 @@
-/* eslint-disable no-restricted-syntax */
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import useShopStore from '../hooks/useShopStore';
+import Post from './Post';
 
 export default function Cart() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -28,7 +29,7 @@ export default function Cart() {
 
   const onSubmit = async (data) => {
     const {
-      receiver, address, phoneNumber, deliveryMessage,
+      receiver, address, zonecode, phoneNumber, deliveryMessage,
     } = data;
 
     if (totalAmount > shopStore.amount) {
@@ -78,16 +79,31 @@ export default function Cart() {
       quantity: carts[0].quantity,
       receiver,
       address,
+      zonecode,
       phoneNumber,
       deliveryMessage,
       totalPrice: totalAmount,
     });
 
-    for (const cart of carts) {
-      shopStore.removeCartItem(cart);
+    for (let i = 0; i < carts.length; i += 1) {
+      shopStore.removeCartItem(carts[i]);
     }
 
     window.open(shopStore.kakaoPayPcUrl, '_self');
+  };
+
+  const [enrollCompany, setEnrollCompany] = useState({
+    address: '',
+  });
+
+  console.log(`---${enrollCompany.address}`);
+  console.log(`---${enrollCompany.zonecode}`);
+
+  const handleInput = (e) => {
+    setEnrollCompany({
+      ...enrollCompany,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -178,12 +194,35 @@ export default function Cart() {
                 <p>받으시는 분 성함을 입력해주세요.</p>
               ) : null}
               <br />
-              <label htmlFor="address">주소*</label>
-              <input
-                id="address"
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...register('address', { required: true })}
-              />
+              <div>
+                <label htmlFor="address">주소*</label>
+                <input
+                  id="address"
+                  placeholder="주소"
+                  type="text"
+                  required
+                  name="address"
+                  onChange={handleInput}
+                  value={enrollCompany.address}
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...register('address', { required: true })}
+                />
+              </div>
+              <div>
+                <label htmlFor="zonecode">우편번호*</label>
+                <input
+                  id="zonecode"
+                  placeholder="우편번호"
+                  type="text"
+                  required
+                  name="zonecode"
+                  onChange={handleInput}
+                  value={enrollCompany.zonecode}
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...register('zonecode', { required: true })}
+                />
+              </div>
+              <Post company={enrollCompany} setcompany={setEnrollCompany} />
               <br />
               <label htmlFor="phoneNumber">휴대전화*</label>
               <input

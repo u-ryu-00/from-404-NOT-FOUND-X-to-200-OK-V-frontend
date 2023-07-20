@@ -139,7 +139,7 @@ export default class ApiService {
 
   async requestOrder({
     userId, productId, name, description, image, price, inventory, quantity,
-    receiver, address, phoneNumber, deliveryMessage,
+    receiver, address, zonecode, phoneNumber, deliveryMessage,
   }) {
     const url = `${baseUrl}/orders`;
     await axios.post(url, {
@@ -153,6 +153,7 @@ export default class ApiService {
       quantity,
       receiver,
       address,
+      zonecode,
       phoneNumber,
       deliveryMessage,
     }, {
@@ -166,6 +167,11 @@ export default class ApiService {
     const url = `${baseUrl}/orders/${id}`;
     const { data } = await axios.get(url);
 
+    console.log('fetchOrder');
+    console.log(data.zonecode);
+    console.log(data.name);
+    console.log(data);
+
     return {
       orderId: data.orderId,
       productId: data.productId,
@@ -178,6 +184,7 @@ export default class ApiService {
       totalPrice: data.totalPrice,
       receiver: data.receiver,
       address: data.address,
+      zonecode: data.zonecode,
       phoneNumber: data.phoneNumber,
       deliveryMessage: data.deliveryMessage,
       createdAt: data.createdAt,
@@ -312,7 +319,7 @@ export default class ApiService {
 
   async requestKakaoPay({
     userId, productId, name, description, image, price, inventory, quantity,
-    receiver, address, phoneNumber, deliveryMessage, totalPrice,
+    receiver, address, zonecode, phoneNumber, deliveryMessage, totalPrice,
   }) {
     const url = `${baseUrl}/orders/ready`;
     const { data } = await axios.post(url, {
@@ -326,6 +333,7 @@ export default class ApiService {
       quantity,
       receiver,
       address,
+      zonecode,
       phoneNumber,
       deliveryMessage,
       totalPrice,

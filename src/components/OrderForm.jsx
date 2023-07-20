@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
 import KakaoPaymentLogo from '../../img/payment_icon_yellow_medium.png';
+import Post from './Post';
 
 export default function OrderForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -22,7 +24,7 @@ export default function OrderForm() {
 
   const onSubmit = async (data) => {
     const {
-      receiver, address, phoneNumber, deliveryMessage,
+      receiver, address, zonecode, phoneNumber, deliveryMessage,
     } = data;
 
     // await shopStore.requestOrder({
@@ -51,6 +53,7 @@ export default function OrderForm() {
       quantity,
       receiver,
       address,
+      zonecode,
       phoneNumber,
       deliveryMessage,
       totalPrice,
@@ -58,6 +61,37 @@ export default function OrderForm() {
 
     window.open(shopStore.kakaoPayPcUrl, '_self');
   };
+
+  const [enrollCompany, setEnrollCompany] = useState({
+    address: '',
+  });
+
+  console.log(`---${enrollCompany.address}`);
+  console.log(`---${enrollCompany.zonecode}`);
+
+  const handleInput = (e) => {
+    setEnrollCompany({
+      ...enrollCompany,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // const handleComplete = (data) => {
+  //   let fullAddress = data.address;
+  //   let extraAddress = '';
+
+  //   if (data.addressType === 'R') {
+  //     if (data.bname !== '') {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== '') {
+  //       extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+  //   }
+
+  //   console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  // };
 
   return (
     <div>
@@ -74,6 +108,7 @@ export default function OrderForm() {
         {shopStore.quantity}
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} action="kakao.jsp">
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
         <label htmlFor="receiver">받으시는 분*</label>
         <input
           id="receiver"
@@ -84,12 +119,36 @@ export default function OrderForm() {
           <p>받으시는 분 성함을 입력해주세요.</p>
         ) : null}
         <br />
-        <label htmlFor="address">주소*</label>
-        <input
-          id="address"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('address', { required: true })}
-        />
+        <div>
+          <label htmlFor="address">주소*</label>
+          <input
+            id="address"
+            placeholder="주소"
+            type="text"
+            required
+            name="address"
+            onChange={handleInput}
+            value={enrollCompany.address}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...register('address', { required: true })}
+          />
+        </div>
+        <div>
+          <label htmlFor="zonecode">우편번호*</label>
+          <input
+            id="zonecode"
+            placeholder="우편번호"
+            type="text"
+            required
+            name="zonecode"
+            onChange={handleInput}
+            value={enrollCompany.zonecode}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...register('zonecode', { required: true })}
+          />
+        </div>
+        <Post company={enrollCompany} setcompany={setEnrollCompany} />
+
         <br />
         <label htmlFor="phoneNumber">휴대전화*</label>
         <input
