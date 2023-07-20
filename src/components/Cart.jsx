@@ -1,13 +1,13 @@
+/* eslint-disable no-restricted-syntax */
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import useShopStore from '../hooks/useShopStore';
 
 export default function Cart() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const navigate = useNavigate();
-
   const shopStore = useShopStore();
+
+  const { userId } = shopStore;
 
   const { carts } = shopStore;
 
@@ -19,11 +19,12 @@ export default function Cart() {
     shopStore.plusCartQuantityAndTotalPrice(cart);
   };
 
+  const totalAmount = carts.reduce((sum, cart) => sum + cart.totalPrice, 0);
+  const totalQuantity = carts.reduce((sum, cart) => sum + cart.quantity, 0);
+
   const deleteItem = (cart) => {
     shopStore.removeCartItem(cart);
   };
-
-  const totalAmount = carts.reduce((sum, cart) => sum + cart.totalPrice, 0);
 
   const onSubmit = async (data) => {
     const {
@@ -35,54 +36,58 @@ export default function Cart() {
       return;
     }
 
-    // shopStore.amount -= totalAmount;
-
-    shopStore.setAmount(totalAmount);
-
     const insufficientInventory = carts.some((cart) => cart.quantity > cart.inventory);
     if (insufficientInventory) {
       alert('상품 재고보다 더 많은 수량을 선택하셨습니다.');
       return;
     }
 
-    const orderItems = carts.map((cart) => ({
-      userId: shopStore.userId,
-      productId: cart.productId,
-      name: cart.name,
-      description: cart.description,
-      image: cart.image,
-      price: cart.price,
-      inventory: cart.inventory,
-      quantity: cart.quantity,
+    // const orderItems = carts.map((cart) => ({
+    //   userId: shopStore.userId,
+    //   productId: cart.productId,
+    //   name: cart.name,
+    //   description: cart.description,
+    //   image: cart.image,
+    //   price: cart.price,
+    //   inventory: cart.inventory,
+    //   quantity: cart.quantity,
+    //   receiver,
+    //   address,
+    //   phoneNumber,
+    //   deliveryMessage,
+    //   totalPrice: totalAmount,
+    // }));
+
+    // await Promise.all(orderItems.map(shopStore.requestOrder));
+
+    let productName;
+    if (carts.length === 1) {
+      productName = carts[0].name;
+    } else {
+      productName = `${carts[0].name} 외 ${totalQuantity - 1}`;
+    }
+
+    await shopStore.requestKakaoPay({
+      userId,
+      productId: carts[0].productId,
+      name: productName,
+      description: carts[0].description,
+      image: carts[0].image,
+      price: carts[0].price,
+      inventory: carts[0].inventory,
+      quantity: carts[0].quantity,
       receiver,
       address,
       phoneNumber,
       deliveryMessage,
-    }));
+      totalPrice: totalAmount,
+    });
 
-    try {
-      // 주문을 한 번에 모든 상품들에 대해 보냅니다
-      await shopStore.requestOrder(orderItems);
-
-      // 주문이 성공적으로 완료되면 장바구니를 비웁니다
-      // shopStore.carts = [];
-
-      // 성공 메시지를 표시하거나 주문 목록 페이지로 이동합니다
-      // alert('✅ 결제가 성공적으로 완료되었습니다! ✅');
-      navigate('/orders');
-    } catch (error) {
-      // 주문 요청 중에 발생할 수 있는 오류를 처리합니다
-      console.error('주문 중 오류 발생:', error);
-      alert('주문 중 오류가 발생했습니다. 다시 시도해주세요.');
+    for (const cart of carts) {
+      shopStore.removeCartItem(cart);
     }
 
-    // await Promise.all(orderItems.map(shopStore.requestOrder));
-
-    // shopStore.carts = [];
-
-    // alert('✅ 결제가 성공적으로 완료되었습니다! ✅');
-
-    // navigate('/orders');
+    window.open(shopStore.kakaoPayPcUrl, '_self');
   };
 
   return (
@@ -193,7 +198,7 @@ export default function Cart() {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...register('deliveryMessage', { required: true })}
               />
-              <button type="submit">결제하기</button>
+              {/* <button type="submit">결제하기</button> */}
               <button type="submit">카카오페이로 결제</button>
             </form>
           </>

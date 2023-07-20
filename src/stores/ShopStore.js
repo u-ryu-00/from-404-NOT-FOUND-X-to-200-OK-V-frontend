@@ -510,6 +510,7 @@ export default class ShopStore {
     address,
     phoneNumber,
     deliveryMessage,
+    totalPrice,
   }) {
     this.changeKakaoPayState('processing');
     try {
@@ -526,6 +527,7 @@ export default class ShopStore {
         address,
         phoneNumber,
         deliveryMessage,
+        totalPrice,
       });
 
       this.changeKakaoPayState('success');
@@ -540,15 +542,26 @@ export default class ShopStore {
     this.publish();
   }
 
-  async approveKakaoPay(pg_Token) {
+  async approveKakaoPay(pgToken) {
     try {
-      const { responseEntity } = await apiService.approveKakaoPay(pg_Token);
+      const { responseEntity } = await apiService.approveKakaoPay(pgToken);
 
       return responseEntity;
     } catch (e) {
       return '';
     }
   }
+
+  // async removeCart(cart) {
+  //   try {
+  //     await apiService.deleteCartItem(cart.cartId);
+
+  //     this.carts = this.carts.filter((item) => item.cartId !== cart.cartId);
+  //     this.publish();
+  //   } catch (error) {
+  //     console.error('Error removing cart item:', error);
+  //   }
+  // }
 }
 
 export const shopStore = new ShopStore();

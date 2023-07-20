@@ -17,6 +17,7 @@ export default function OrderForm() {
     price,
     inventory,
     quantity,
+    totalPrice,
   } = shopStore;
 
   const onSubmit = async (data) => {
@@ -52,6 +53,7 @@ export default function OrderForm() {
       address,
       phoneNumber,
       deliveryMessage,
+      totalPrice,
     });
 
     window.open(shopStore.kakaoPayPcUrl, '_self');

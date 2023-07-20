@@ -14,7 +14,7 @@ export default function OrdersPage() {
 
   const [page, setPage] = useState('');
 
-  const pg_Token = new URL(window.location.href).searchParams.get('pg_token');
+  const pgToken = new URL(window.location.href).searchParams.get('pg_token');
 
   useEffect(() => {
     if (!accessToken) {
@@ -25,8 +25,8 @@ export default function OrdersPage() {
     shopStore.fetchOrders(page);
     shopStore.fetchAccount();
 
-    if (pg_Token) {
-      shopStore.approveKakaoPay(pg_Token);
+    if (pgToken) {
+      shopStore.approveKakaoPay(pgToken);
     }
   }, [page]);
 
