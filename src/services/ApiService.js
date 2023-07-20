@@ -312,7 +312,7 @@ export default class ApiService {
 
   async requestKakaoPay({
     userId, productId, name, description, image, price, inventory, quantity,
-    receiver, address, phoneNumber, deliveryMessage,
+    receiver, address, phoneNumber, deliveryMessage, totalPrice,
   }) {
     const url = `${baseUrl}/orders/ready`;
     const { data } = await axios.post(url, {
@@ -328,6 +328,7 @@ export default class ApiService {
       address,
       phoneNumber,
       deliveryMessage,
+      totalPrice,
     }, {
       headers: {
         authorization: `Bearer ${this.accessToken}`,
@@ -337,13 +338,13 @@ export default class ApiService {
     return data.next_redirect_pc_url;
   }
 
-  async approveKakaoPay(pg_Token) {
+  async approveKakaoPay(pgToken) {
     try {
       const url = `${baseUrl}/orders/success`;
 
       const response = await axios.get(url, {
         params: {
-          pg_Token,
+          pgToken,
         },
       });
       const responseEntity = response.data;
