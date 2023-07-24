@@ -126,7 +126,7 @@ export default function EditReviewForm() {
           />
           <div>
             <label htmlFor="reviewImage">리뷰 이미지</label>
-            <inputa
+            <input
               id="reviewImage"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...register('reviewImage', { required: true })}

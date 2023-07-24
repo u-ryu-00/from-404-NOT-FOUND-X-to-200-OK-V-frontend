@@ -1,22 +1,140 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
-import Account from './Account';
 
 const StyledNavLink = styled(NavLink)`
-  position: relative;
+  background: #FFCACC;
+  background: linear-gradient(0deg,  rgb(0,172,238) 0%,  rgb(0,172,238) 100%);
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
 
-  &.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
+  span {
+    position: relative;
+    display: block;
     width: 100%;
-    height: 0.3rem;
-    background-color: #303030
+    height: 100%;
   }
+
+  ::before::after{
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 0;
+    background:  rgb(0,172,238);
+    transition: all 0.3s ease;
+  }
+
+  :before {
+    height: 0%;
+    width: 2px;
+  }
+
+  :after {
+    width: 0%;
+    height: 2px;
+  }
+
+  :hover{
+    background: transparent;
+    box-shadow: none;
+  }
+
+  :hover:before {
+    height: 100%;
+  }
+
+  :hover:after {
+    width: 100%;
+  }
+
+  span:hover{
+    color:  rgb(0,172,238);
+  }
+
+  span:before,
+  span:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    background:  rgb(0,172,238);
+    transition: all 0.3s ease;
+  }
+
+  span:before {
+    width: 2px;
+    height: 0%;
+  }
+
+  span:after {
+    width: 0%;
+    height: 2px;
+  }
+
+  :hover:before {
+    height: 100%;
+  }
+
+  span:hover:after {
+    width: 100%;
+  }
+`;
+
+const Container = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 6.4rem;
+  font-size: 3rem;
+  background-color: #AEDEFC;
+  color: #FFFFFF;
+  li:first-child {
+     margin-left: 4rem;
+     /* margin-right: 4rem; */
+  }
+`;
+
+const Menu = styled.ul`
+  display:flex;
+  align-items: center;
+  li {
+    margin-left: 4rem; 
+  }
+  margin-right: 4rem;
+`;
+
+const Marquee = styled.div`
+  width: 100%;
+  height: 4rem;
+  background-color: #0056a8;
+  overflow: hidden;
+  position: relative;
+  color: #FFFFFF;
+  font-family: 'Waiting for the Sunrise';
+
+  div {
+    display: block;
+    width: 200%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    margin: 1rem 1rem 1rem 1rem;
+    animation: marquee 18s linear infinite;
+  }
+
+  span {
+    font-size: 2rem;
+  }
+
+  @keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -50%; }
+}
 `;
 
 export default function Header() {
@@ -41,42 +159,62 @@ export default function Header() {
   };
 
   return (
-    <header>
-      <ul>
+    <>
+      <Marquee>
+        <div>
+          <span>
+            👾 F4T2 👾
+            {' '}
+            from 404 NOT FOUND X to 200 OK V
+            {' '}
+            👾 F4T2 👾
+            {' '}
+          </span>
+        </div>
+      </Marquee>
+      <Container>
         <li>
-          <StyledNavLink to="/" activeclassname="active">Home</StyledNavLink>
+          F4T2
         </li>
-        <li>
-          <NavLink to="/products">Shop</NavLink>
-        </li>
-        <li>
-          <NavLink to="/cart">Cart</NavLink>
-        </li>
-        <li>
-          <NavLink to="/orders">Orders</NavLink>
-        </li>
-      </ul>
-      <ul>
-        {accessToken ? (
-          <>
-            <li>
+        <Menu>
+          <li>
+            <StyledNavLink to="/" activeclassname="active"><span>Home</span></StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/products"><span>Shop</span></StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/cart"><span>Cart</span></StyledNavLink>
+          </li>
+          <li>
+            <StyledNavLink to="/orders"><span>Orders</span></StyledNavLink>
+          </li>
+          <li>
+            <span>|</span>
+          </li>
+          {/* </Menu> */}
+          {/* <Menu> */}
+          {accessToken ? (
+            <>
+              {/* <li>
               <Account />
-            </li>
-            <li>
-              <Link to="/" onClick={handleLogout}>Log out</Link>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/login">Log in</Link>
-            </li>
-            <li>
-              <Link to="/signup">Join us</Link>
-            </li>
-          </>
-        )}
-      </ul>
-    </header>
+            </li> */}
+              <li>
+                <StyledNavLink to="/" onClick={handleLogout}><span>Log out</span></StyledNavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <StyledNavLink to="/login"><span>Log in</span></StyledNavLink>
+              </li>
+              <li>
+                <StyledNavLink to="/signup"><span>Join us</span></StyledNavLink>
+              </li>
+            </>
+          )}
+        </Menu>
+      </Container>
+    </>
   );
 }

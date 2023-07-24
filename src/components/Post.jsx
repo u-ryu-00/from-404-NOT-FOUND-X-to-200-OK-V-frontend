@@ -1,6 +1,6 @@
 import DaumPostcodeEmbed from 'react-daum-postcode';
 
-export default function Post(props) {
+export default function Post({ setcompany, company, handleClose }) {
   const handleComplete = (data) => {
     let fullAddress = data.address;
     let extraAddress = '';
@@ -16,24 +16,18 @@ export default function Post(props) {
       fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
     }
 
-    console.log(data);
-    console.log(fullAddress);
-    console.log(data.zonecode);
-    console.log(data.roadAddress);
-    console.log(data.jibunAddress);
-
-    props.setcompany({
-      ...props.company,
+    setcompany({
+      ...company,
       address: fullAddress,
       zonecode,
-
     });
+
+    handleClose(); // 주소 선택이 완료되면 모달/팝업을 닫습니다.
   };
 
   return (
     <DaumPostcodeEmbed
       onComplete={handleComplete}
-      // {...props}
     />
   );
 }

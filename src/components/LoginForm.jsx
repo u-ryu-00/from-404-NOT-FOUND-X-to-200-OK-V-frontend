@@ -1,8 +1,32 @@
 import { useForm } from 'react-hook-form';
 import { useLocalStorage } from 'usehooks-ts';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import { shopStore } from '../stores/ShopStore';
 import KakaoLogin from './KakaoLogin';
+import Title from './ui/Title';
+import ErrorText from './ui/ErrorText';
+import InputBox from './ui/InputBox';
+import SubmitButton from './ui/SubmitButton';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 50rem; */
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  width: 40rem;
+  height: 5rem;
+  align-items: center;
+  background-color: #0056a8;
+  color: #FFFFFF;
+  font-family: 'Rowdies';
+  font-size: 2rem;
+`;
 
 export default function LoginForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -25,43 +49,37 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>LOG IN</h1>
-      <div>
-        <label htmlFor="input-userId">
-          아이디
-        </label>
-        <input
+    <Container>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Title>LOG IN</Title>
+        <InputBox
           id="input-userId"
           placeholder="ID"
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('userId', { required: true })}
         />
+        <br />
         {errors.userId ? (
-          <p>아이디를 입력해주세요</p>
+          <ErrorText>아이디를 입력해주세요.</ErrorText>
         ) : null}
-      </div>
-      <div>
-        <label htmlFor="input-password">
-          비밀번호
-        </label>
-        <input
+        <InputBox
           id="input-password"
           placeholder="Password"
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('password', { required: true })}
         />
         {errors.password ? (
-          <p>비밀번호를 입력해주세요</p>
+          <ErrorText>비밀번호를 입력해주세요.</ErrorText>
         ) : null}
         {shopStore.loginState === 'fail' ? (
-          <p>아이디 혹은 비밀번호가 맞지 않습니다.</p>
+          <ErrorText>아이디 혹은 비밀번호가 맞지 않습니다.</ErrorText>
         ) : null}
         <KakaoLogin />
-      </div>
-      <button type="submit" onClick={() => {}}>Log in</button>
-      <br />
-      <Link to="/signup">Register</Link>
-    </form>
+        <br />
+        <SubmitButton type="submit" onClick={() => {}}>Log in</SubmitButton>
+        <br />
+        <StyledLink to="/signup">Register</StyledLink>
+      </form>
+    </Container>
   );
 }

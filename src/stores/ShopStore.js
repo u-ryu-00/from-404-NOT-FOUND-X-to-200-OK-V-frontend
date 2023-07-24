@@ -45,6 +45,8 @@ export default class ShopStore {
     this.ratingValue = '';
 
     this.kakaoPayPcUrl = '';
+
+    this.errorMessage = '';
   }
 
   subscribe(listener) {
@@ -97,15 +99,21 @@ export default class ShopStore {
 
       return accessToken;
     } catch (e) {
-      this.changeSignupState('fail');
+      const { message } = e.response.data;
+      this.changeSignupState('fail', { errorMessage: message });
       return '';
     }
   }
 
-  changeSignupState(state) {
+  changeSignupState(state, { errorMessage = '' } = {}) {
+    this.errorMessage = errorMessage;
     this.signupState = state;
 
     this.publish();
+  }
+
+  get isSignupFail() {
+    return this.signupState === 'fail';
   }
 
   async kakaoLogin(code) {
@@ -554,17 +562,6 @@ export default class ShopStore {
       return '';
     }
   }
-
-  // async removeCart(cart) {
-  //   try {
-  //     await apiService.deleteCartItem(cart.cartId);
-
-  //     this.carts = this.carts.filter((item) => item.cartId !== cart.cartId);
-  //     this.publish();
-  //   } catch (error) {
-  //     console.error('Error removing cart item:', error);
-  //   }
-  // }
 }
 
 export const shopStore = new ShopStore();
