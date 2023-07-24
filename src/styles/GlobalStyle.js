@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-size: 1.6rem;
+    min-width: 1024px;  
+    min-height: 768px;
   }
 
   * {
@@ -17,6 +19,28 @@ const GlobalStyle = createGlobalStyle`
     color: #000;
     text-decoration: none; 
     color: inherit; 
+  }
+
+  header {
+    font-family: 'Darumadrop One';
+  }
+
+  button {
+    border: none;
+    padding: none;
+    outline: none;
+    background-color: inherit ;
+    cursor: pointer;
+  }
+
+  label, p, h1, h2 {
+    font-family: 'Poor Story'
+  }
+
+  li, ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 `;
 

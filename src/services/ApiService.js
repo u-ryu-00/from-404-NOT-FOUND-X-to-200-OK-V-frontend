@@ -167,11 +167,6 @@ export default class ApiService {
     const url = `${baseUrl}/orders/${id}`;
     const { data } = await axios.get(url);
 
-    console.log('fetchOrder');
-    console.log(data.zonecode);
-    console.log(data.name);
-    console.log(data);
-
     return {
       orderId: data.orderId,
       productId: data.productId,

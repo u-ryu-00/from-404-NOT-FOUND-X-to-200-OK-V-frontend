@@ -113,6 +113,16 @@ export default function Product() {
       return;
     }
 
+    const existingReview = reviews.find(
+      (review) => Number(review.productId) === Number(shopStore.productId)
+      && review.userId === userId,
+    );
+
+    if (existingReview) {
+      alert('이미 리뷰를 작성하셨습니다.');
+      return;
+    }
+
     const {
       title, content,
     } = data;
@@ -226,7 +236,7 @@ export default function Product() {
           </p>
         ) : null}
       {showModal ? <CartModal setShowModal={setShowModal} /> : null}
-      {isError ? <p>❌잔액이 부족하여 상품 구매가 불가합니다❌</p> : null}
+      {/* {isError ? <p>❌잔액이 부족하여 상품 구매가 불가합니다❌</p> : null} */}
       <p>Review</p>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -323,10 +333,8 @@ export default function Product() {
                   <hr />
                 </>
               ) : null}
-
           </div>
         ))}
-
       </div>
     </div>
   );

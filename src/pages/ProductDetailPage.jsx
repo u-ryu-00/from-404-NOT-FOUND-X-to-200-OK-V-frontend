@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import useShopStore from '../hooks/useShopStore';
 import Product from '../components/Product';
-import Pagination from '../components/Pagination';
+// import Pagination from '../components/Pagination';
 
 export default function ProductDetailPage() {
   const shopStore = useShopStore();
@@ -12,7 +12,7 @@ export default function ProductDetailPage() {
 
   shopStore.productId = window.location.pathname.split('/').pop();
 
-  const [page, setPage] = useState('');
+  // const [page, setPage] = useState('');
 
   const [accessToken] = useLocalStorage('accessToken', '');
 
@@ -21,23 +21,23 @@ export default function ProductDetailPage() {
 
     shopStore.resetQuantity();
 
-    shopStore.fetchReviews(page);
+    // shopStore.fetchReviews(page);
 
     if (accessToken) {
       shopStore.fetchOrders();
     }
-  }, [page]);
+  }, []);
 
-  const { totalPages } = shopStore;
+  // const { totalPages } = shopStore;
 
-  const moveToPage = (clickedPage) => {
-    navigate(`?page=${clickedPage}`);
-  };
+  // const moveToPage = (clickedPage) => {
+  //   navigate(`?page=${clickedPage}`);
+  // };
 
   return (
     <div>
       <Product />
-      <Pagination totalPages={totalPages} onClick={moveToPage} setPage={setPage} />
+      {/* <Pagination totalPages={totalPages} onClick={moveToPage} setPage={setPage} /> */}
     </div>
   );
 }

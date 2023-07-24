@@ -43,24 +43,6 @@ export default function Cart() {
       return;
     }
 
-    // const orderItems = carts.map((cart) => ({
-    //   userId: shopStore.userId,
-    //   productId: cart.productId,
-    //   name: cart.name,
-    //   description: cart.description,
-    //   image: cart.image,
-    //   price: cart.price,
-    //   inventory: cart.inventory,
-    //   quantity: cart.quantity,
-    //   receiver,
-    //   address,
-    //   phoneNumber,
-    //   deliveryMessage,
-    //   totalPrice: totalAmount,
-    // }));
-
-    // await Promise.all(orderItems.map(shopStore.requestOrder));
-
     let productName;
     if (carts.length === 1) {
       productName = carts[0].name;
@@ -96,14 +78,21 @@ export default function Cart() {
     address: '',
   });
 
-  console.log(`---${enrollCompany.address}`);
-  console.log(`---${enrollCompany.zonecode}`);
-
   const handleInput = (e) => {
     setEnrollCompany({
       ...enrollCompany,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const [isPostOpen, setIsPostOpen] = useState(false);
+
+  const handleOpenPost = () => {
+    setIsPostOpen(true);
+  };
+
+  const handleClosePost = () => {
+    setIsPostOpen(false);
   };
 
   return (
@@ -207,6 +196,9 @@ export default function Cart() {
                   // eslint-disable-next-line react/jsx-props-no-spreading
                   {...register('address', { required: true })}
                 />
+                <button type="button" onClick={handleOpenPost}>
+                  주소 입력하기
+                </button>
               </div>
               <div>
                 <label htmlFor="zonecode">우편번호*</label>
@@ -222,7 +214,30 @@ export default function Cart() {
                   {...register('zonecode', { required: true })}
                 />
               </div>
-              <Post company={enrollCompany} setcompany={setEnrollCompany} />
+              {isPostOpen && (
+                <div
+                  style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div style={{ background: '#fff', padding: '20px', borderRadius: '5px' }}>
+                    <Post
+                      company={enrollCompany}
+                      setcompany={setEnrollCompany}
+                      handleClose={handleClosePost}
+                    />
+                  </div>
+                </div>
+              )}
+              {/* <Post company={enrollCompany} setcompany={setEnrollCompany} /> */}
               <br />
               <label htmlFor="phoneNumber">휴대전화*</label>
               <input
@@ -237,9 +252,9 @@ export default function Cart() {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...register('deliveryMessage', { required: true })}
               />
-              {/* <button type="submit">결제하기</button> */}
               <button type="submit">카카오페이로 결제</button>
             </form>
+
           </>
         )}
     </div>

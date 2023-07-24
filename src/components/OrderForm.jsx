@@ -27,21 +27,6 @@ export default function OrderForm() {
       receiver, address, zonecode, phoneNumber, deliveryMessage,
     } = data;
 
-    // await shopStore.requestOrder({
-    //   userId,
-    //   productId,
-    //   name,
-    //   description,
-    //   image,
-    //   price,
-    //   inventory,
-    //   quantity,
-    //   receiver,
-    //   address,
-    //   phoneNumber,
-    //   deliveryMessage,
-    // });
-
     await shopStore.requestKakaoPay({
       userId,
       productId,
@@ -66,9 +51,6 @@ export default function OrderForm() {
     address: '',
   });
 
-  console.log(`---${enrollCompany.address}`);
-  console.log(`---${enrollCompany.zonecode}`);
-
   const handleInput = (e) => {
     setEnrollCompany({
       ...enrollCompany,
@@ -76,22 +58,15 @@ export default function OrderForm() {
     });
   };
 
-  // const handleComplete = (data) => {
-  //   let fullAddress = data.address;
-  //   let extraAddress = '';
+  const [isPostOpen, setIsPostOpen] = useState(false);
 
-  //   if (data.addressType === 'R') {
-  //     if (data.bname !== '') {
-  //       extraAddress += data.bname;
-  //     }
-  //     if (data.buildingName !== '') {
-  //       extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-  //     }
-  //     fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-  //   }
+  const handleOpenPost = () => {
+    setIsPostOpen(true);
+  };
 
-  //   console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-  // };
+  const handleClosePost = () => {
+    setIsPostOpen(false);
+  };
 
   return (
     <div>
@@ -132,6 +107,9 @@ export default function OrderForm() {
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register('address', { required: true })}
           />
+          <button type="button" onClick={handleOpenPost}>
+            주소 입력하기
+          </button>
         </div>
         <div>
           <label htmlFor="zonecode">우편번호*</label>
@@ -147,8 +125,21 @@ export default function OrderForm() {
             {...register('zonecode', { required: true })}
           />
         </div>
-        <Post company={enrollCompany} setcompany={setEnrollCompany} />
-
+        {isPostOpen && (
+          <div style={{
+            position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center',
+          }}
+          >
+            <div style={{ background: '#fff', padding: '20px', borderRadius: '5px' }}>
+              <Post
+                company={enrollCompany}
+                setcompany={setEnrollCompany}
+                handleClose={handleClosePost}
+              />
+            </div>
+          </div>
+        )}
+        {/* <Post company={enrollCompany} setcompany={setEnrollCompany} /> */}
         <br />
         <label htmlFor="phoneNumber">휴대전화*</label>
         <input

@@ -1,7 +1,28 @@
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
-
 import numberFormat from '../utils/numberFormat';
+import Title from './ui/Title';
+import ProductTitle from './ui/ProductTitle';
+import ProductPrice from './ui/ProductPrice';
+
+const Product = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10rem;
+  overflow: scroll;
+
+  img {
+    border: 7px solid #0056a8;
+    border-radius: 20%;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 5rem;
+`;
 
 export default function Products() {
   const shopStore = useShopStore();
@@ -9,22 +30,26 @@ export default function Products() {
   const { products } = shopStore;
 
   return (
-    <div>
-      <p>Shop</p>
-      {(!products.length) ? (
-        <p>상품이 존재하지 않습니다.</p>
-      )
-        : null}
-      {products.map((product) => (
-        <Link to={`/products/${product.id}`} key={product.id}>
-          <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />
-          <h1>{product.name}</h1>
-          <h1>
-            {numberFormat(product.price)}
-            원
-          </h1>
-        </Link>
-      ))}
-    </div>
+    <>
+      <Title>Shop</Title>
+      <Container>
+        <Product>
+          {(!products.length) ? (
+            <Title>상품이 존재하지 않습니다.</Title>
+          )
+            : null}
+          {products.map((product) => (
+            <Link to={`/products/${product.id}`} key={product.id}>
+              <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />
+              <ProductTitle>{product.name}</ProductTitle>
+              <ProductPrice>
+                {numberFormat(product.price)}
+                원
+              </ProductPrice>
+            </Link>
+          ))}
+        </Product>
+      </Container>
+    </>
   );
 }
