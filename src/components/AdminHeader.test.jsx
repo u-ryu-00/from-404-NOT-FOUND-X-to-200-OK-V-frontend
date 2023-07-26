@@ -9,5 +9,5 @@ test('AdminHeader', () => {
     </MemoryRouter>
   ));
 
-  screen.getByText(/홈/);
+  screen.getByText(/관리자님이 로그인 중입니다./);
 });

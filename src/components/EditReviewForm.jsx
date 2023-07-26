@@ -1,7 +1,37 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
+import Title from './ui/Title';
+import SubmitButton from './ui/SubmitButton';
+import InputBox from './ui/InputBox';
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  div:nth-child(3){
+    display: flex;
+    justify-content: flex-start;
+    width: 40rem;
+    margin: 2rem 0;
+  }
+
+  button {
+    margin: 3rem 0;
+  }
+`;
+
+const Textarea = styled.textarea`
+    border: 1px solid rgb(216, 216, 216);
+    color: rgb(160, 160, 160);
+    width: 40rem;
+    padding: 1rem;
+    height: 16rem;
+    margin: 1rem 0 3.5rem 0; 
+`;
 
 export default function EditReviewForm() {
   const { register, handleSubmit, setValue } = useForm();
@@ -54,11 +84,12 @@ export default function EditReviewForm() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <p>리뷰 수정</p>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Title>Edit Review</Title>
         <div>
-          <label htmlFor="title">제목</label>
-          <input
+          <label htmlFor="title">제목 :</label>
+          <br />
+          <InputBox
             id="title"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register('title', { required: true })}
@@ -118,23 +149,25 @@ export default function EditReviewForm() {
           </label>
         </div>
         <div>
-          <label htmlFor="content">리뷰 내용</label>
-          <input
+          <label htmlFor="content">리뷰 내용 :</label>
+          <br />
+          <Textarea
             id="content"
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...register('content', { required: true })}
           />
           <div>
-            <label htmlFor="reviewImage">리뷰 이미지</label>
-            <input
+            <label htmlFor="reviewImage">리뷰 이미지: </label>
+            <br />
+            <InputBox
               id="reviewImage"
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...register('reviewImage', { required: true })}
             />
           </div>
         </div>
-        <button type="submit">WRITE</button>
-      </form>
+        <SubmitButton type="submit">WRITE</SubmitButton>
+      </Form>
     </div>
   );
 }

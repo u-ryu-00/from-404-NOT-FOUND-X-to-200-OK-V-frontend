@@ -1,7 +1,21 @@
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
+import Title from './ui/Title';
+import SubmitButton from './ui/SubmitButton';
+import InputBox from './ui/InputBox';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    margin-top: 3rem;
+  }
+`;
 
 export default function AdminManagementUpdateForm() {
   const { register, handleSubmit, setValue } = useForm();
@@ -45,48 +59,55 @@ export default function AdminManagementUpdateForm() {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>상품 수정</h1>
-        <div>
-          <label htmlFor="input-product-name">상품 이름</label>
-          <input
-            id="input-product-name"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('name', { required: true })}
-          />
-        </div>
-        <div>
-          <label htmlFor="input-product-description">상품 설명</label>
-          <input
-            id="input-product-description"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('description', { required: true })}
-          />
-        </div>
-        <div>
-          <label htmlFor="input-product-image">상품 이미지</label>
-          <input
-            id="input-product-image"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('image', { required: true })}
-          />
-        </div>
-        <div>
-          <label htmlFor="input-product-price">상품 가격</label>
-          <input
-            id="input-product-price"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('price', { required: true })}
-          />
-        </div>
-        <div>
-          <label htmlFor="input-product-inventory">상품 수량</label>
-          <input
-            id="input-product-inventory"
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('inventory', { required: true })}
-          />
-        </div>
-        <button type="submit">상품 수정</button>
+        <Title>상품 수정</Title>
+        <Container>
+          <div>
+            <label htmlFor="input-product-name">상품 이름 : </label>
+            <br />
+            <InputBox
+              id="input-product-name"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('name', { required: true })}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-product-description">상품 설명 : </label>
+            <br />
+            <InputBox
+              id="input-product-description"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('description', { required: true })}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-product-image">상품 이미지 : </label>
+            <br />
+            <InputBox
+              id="input-product-image"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('image', { required: true })}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-product-price">상품 가격 : </label>
+            <br />
+            <InputBox
+              id="input-product-price"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('price', { required: true })}
+            />
+          </div>
+          <div>
+            <label htmlFor="input-product-inventory">상품 수량 : </label>
+            <br />
+            <InputBox
+              id="input-product-inventory"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('inventory', { required: true })}
+            />
+          </div>
+          <SubmitButton type="submit">상품 수정</SubmitButton>
+        </Container>
       </form>
     </div>
   );

@@ -23,10 +23,11 @@ const Box = styled.h1`
   background: rgb(0,172,238);
 
   --mask: 
-    radial-gradient(20px at 75% 100%,#0000 98%,#FFFFFF) 50% calc(100% - 20px)/80px 100% repeat-x,
-    radial-gradient(20px at 25% 50% ,#FFFFFF 99%,#0000 101%) bottom/80px 40px repeat-x;
+  linear-gradient(to top ,#0000 25px,#000 0),
+  radial-gradient(25px, #000 98%, #0000) 50% / 46.25px 50px repeat space;
+
   -webkit-mask: var(--mask);
-    mask: var(--mask);
+  mask: var(--mask);
 `;
 
 const Container = styled.div`
@@ -115,7 +116,7 @@ export default function HomePage() {
       <Container>
         <Product>
           {(!products.length) ? (
-            <Title>상품이 존재하지 않습니다.</Title>
+            <p>상품이 존재하지 않습니다.</p>
           )
             : null}
           {products.map((product) => {

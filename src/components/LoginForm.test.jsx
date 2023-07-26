@@ -32,11 +32,11 @@ describe('LoginForm', () => {
 
     expect(screen.getByRole('heading', { name: 'LOG IN' })).toBeInTheDocument();
 
-    fireEvent.change(screen.getByLabelText('아이디'), {
+    fireEvent.change(screen.getByPlaceholderText('ID'), {
       target: { value: 'a111' },
     });
 
-    fireEvent.change(screen.getByLabelText('비밀번호'), {
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
       target: { value: 'Aa1!!!!!' },
     });
 

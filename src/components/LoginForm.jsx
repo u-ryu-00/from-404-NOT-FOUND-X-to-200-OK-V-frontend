@@ -13,7 +13,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 50rem; */
 `;
 
 const StyledLink = styled(Link)`
@@ -65,6 +64,7 @@ export default function LoginForm() {
         <InputBox
           id="input-password"
           placeholder="Password"
+          type="password"
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('password', { required: true })}
         />

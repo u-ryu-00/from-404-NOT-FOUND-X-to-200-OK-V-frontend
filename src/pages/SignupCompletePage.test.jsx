@@ -9,6 +9,6 @@ test('SignupCompletePage', () => {
     </MemoryRouter>
   ));
 
-  screen.getByText(/회원가입 완료/);
-  screen.getByText(/로그인하기/);
+  screen.getByText(/회원가입이 완료되었습니다./);
+  screen.getByText(/Log in/);
 });

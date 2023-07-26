@@ -1,9 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
 import Pagination from '../components/Pagination';
 import Orders from '../components/Orders';
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default function OrdersPage() {
   const shopStore = useShopStore();
@@ -30,7 +37,7 @@ export default function OrdersPage() {
     }
   }, [page]);
 
-  const { totalPages } = shopStore;
+  const { totalPages, orders } = shopStore;
 
   const moveToPage = (clickedPage) => {
     navigate(`?page=${clickedPage}`);
@@ -39,7 +46,17 @@ export default function OrdersPage() {
   return (
     <div>
       <Orders />
-      <Pagination totalPages={totalPages} onClick={moveToPage} setPage={setPage} />
+      {(!orders.length) ? (
+        null)
+        : (
+          <Container>
+            <Pagination
+              totalPages={totalPages}
+              onClick={moveToPage}
+              setPage={setPage}
+            />
+          </Container>
+        )}
     </div>
   );
 }

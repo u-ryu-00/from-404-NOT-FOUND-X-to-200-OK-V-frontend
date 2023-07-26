@@ -15,7 +15,7 @@ test('CartPage', async () => {
   screen.getByText(/장바구니에 상품이 없습니다./);
 
   await waitFor(() => {
-    screen.getByText(/내 장바구니 내역입니다./);
-    screen.getByText(/거북이 인형/);
+    screen.getAllByText(/My Cart/);
+    screen.getAllByText(/거북이 인형/);
   });
 });

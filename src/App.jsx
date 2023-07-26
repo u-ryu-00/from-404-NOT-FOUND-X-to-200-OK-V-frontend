@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { useLocalStorage } from 'usehooks-ts';
 import { useEffect } from 'react';
+
 import GlobalStyle from './styles/GlobalStyle';
 
 import HomePage from './pages/HomePage';
@@ -16,7 +17,6 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import OrderPage from './pages/OrderPage';
 import OrdersPage from './pages/OrdersPage';
-import AdminHomePage from './pages/AdminHomePage';
 import AdminRegistrationPage from './pages/AdminRegistrationPage';
 import AdminManagementPage from './pages/AdminManagementPage';
 import AdminHeader from './components/AdminHeader';
@@ -54,7 +54,6 @@ export default function App() {
         <Route path="/order" element={<OrderPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/orders/:id" element={<OrderDetailPage />} />
-        <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />
         <Route path="/admin/management" element={<AdminManagementPage />} />
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
