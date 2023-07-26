@@ -9,6 +9,6 @@ test('EditReviewForm', () => {
     </MemoryRouter>
   ));
 
-  screen.getByText(/리뷰 수정/);
+  screen.getByText(/Edit Review/);
   screen.getByText(/WRITE/);
 });

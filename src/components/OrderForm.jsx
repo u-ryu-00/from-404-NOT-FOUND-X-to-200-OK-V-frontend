@@ -1,9 +1,59 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
 import KakaoPaymentLogo from '../../img/payment_icon_yellow_medium.png';
 import Post from './Post';
+import InputBox from './ui/InputBox';
+import ErrorText from './ui/ErrorText';
+import Title from './ui/Title';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 4rem 0;
+`;
+
+const OrderInformation = styled.div`
+  display: flex;
+`;
+
+const Image = styled.div`
+  img {
+    border: 7px solid #0056a8;
+    border-radius: 20%;
+    margin-right: 4rem;
+  }
+`;
+
+const Information = styled.div`
+  h1 {
+    font-family: 'Jua';
+    font-size: 2rem;
+  }
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  padding: 2rem;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const AddressButton = styled.button`
+  font-size: 2rem;
+  font-family: 'Black Han Sans';
+  border: solid 1px;
+  margin-left: 1rem;
+`;
+
+const PayButton = styled.button`
+  width: 40rem;
+  margin-top: 1rem;
+`;
 
 export default function OrderForm() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -70,99 +120,125 @@ export default function OrderForm() {
 
   return (
     <div>
-      <p>주문서 작성</p>
-      <img src={shopStore.image} alt="상품 사진" style={{ width: '45rem', height: '45rem' }} />
-      <h1>
-        상품 이름 :
-        {' '}
-        {shopStore.name}
-      </h1>
-      <h1>
-        수량 :
-        {' '}
-        {shopStore.quantity}
-      </h1>
-      <form onSubmit={handleSubmit(onSubmit)} action="kakao.jsp">
-        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
-        <label htmlFor="receiver">받으시는 분*</label>
-        <input
-          id="receiver"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('receiver', { required: true })}
-        />
-        {errors.receiver ? (
-          <p>받으시는 분 성함을 입력해주세요.</p>
-        ) : null}
-        <br />
-        <div>
-          <label htmlFor="address">주소*</label>
-          <input
-            id="address"
-            placeholder="주소"
-            type="text"
-            required
-            name="address"
-            onChange={handleInput}
-            value={enrollCompany.address}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('address', { required: true })}
-          />
-          <button type="button" onClick={handleOpenPost}>
-            주소 입력하기
-          </button>
-        </div>
-        <div>
-          <label htmlFor="zonecode">우편번호*</label>
-          <input
-            id="zonecode"
-            placeholder="우편번호"
-            type="text"
-            required
-            name="zonecode"
-            onChange={handleInput}
-            value={enrollCompany.zonecode}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('zonecode', { required: true })}
-          />
-        </div>
-        {isPostOpen && (
-          <div style={{
-            position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center',
-          }}
-          >
-            <div style={{ background: '#fff', padding: '20px', borderRadius: '5px' }}>
-              <Post
-                company={enrollCompany}
-                setcompany={setEnrollCompany}
-                handleClose={handleClosePost}
-              />
+      <Container>
+        <OrderInformation>
+          <Image>
+            <img src={shopStore.image} alt="상품 사진" style={{ width: '20rem', height: '20rem' }} />
+          </Image>
+          <Information>
+            <div>
+              <h1>
+                상품 이름 :
+                {' '}
+                {shopStore.name}
+              </h1>
+              <h1>
+                수량 :
+                {' '}
+                {shopStore.quantity}
+              </h1>
             </div>
+            <div>
+              <h1>
+                총 합계 :
+                {' '}
+                {numberFormat(shopStore.totalPrice)}
+                원
+              </h1>
+            </div>
+          </Information>
+        </OrderInformation>
+      </Container>
+      <Title>Order Sheet</Title>
+      <InputContainer>
+        <form onSubmit={handleSubmit(onSubmit)} action="kakao.jsp">
+          <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
+          <div>
+            <label htmlFor="receiver">받으시는 분*</label>
+            <br />
+            <InputBox
+              id="receiver"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('receiver', { required: true })}
+            />
           </div>
-        )}
-        {/* <Post company={enrollCompany} setcompany={setEnrollCompany} /> */}
-        <br />
-        <label htmlFor="phoneNumber">휴대전화*</label>
-        <input
-          id="phoneNumber"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('phoneNumber', { required: true })}
-        />
-        <br />
-        <label htmlFor="deliveryMessage">배송메시지</label>
-        <input
-          id="deliveryMessage"
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('deliveryMessage', { required: true })}
-        />
-        <p>
-          총 합계 :
-          {' '}
-          {numberFormat(shopStore.totalPrice)}
-          원
-        </p>
-        <button type="submit">결제하기</button>
-        <button type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></button>
-      </form>
+          {errors.receiver ? (
+            <ErrorText>받으시는 분 성함을 입력해주세요.</ErrorText>
+          ) : null}
+          <br />
+          <div>
+            <label htmlFor="address">주소*</label>
+            <AddressButton type="button" onClick={handleOpenPost}>
+              🏘️ 주소 입력하기
+            </AddressButton>
+            <br />
+            <InputBox
+              id="address"
+              placeholder="주소"
+              type="text"
+              name="address"
+              onChange={handleInput}
+              value={enrollCompany.address}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('address', { required: true })}
+            />
+          </div>
+          <div>
+            <label htmlFor="zonecode">우편번호*</label>
+            <br />
+            <InputBox
+              id="zonecode"
+              placeholder="우편번호"
+              type="text"
+              name="zonecode"
+              onChange={handleInput}
+              value={enrollCompany.zonecode}
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('zonecode', { required: true })}
+            />
+          </div>
+          {isPostOpen && (
+            <div style={{
+              position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center',
+            }}
+            >
+              <div style={{ background: '#fff', padding: '20px', borderRadius: '5px' }}>
+                <Post
+                  company={enrollCompany}
+                  setcompany={setEnrollCompany}
+                  handleClose={handleClosePost}
+                />
+              </div>
+            </div>
+          )}
+          <br />
+          <div>
+            <label htmlFor="phoneNumber">휴대전화*</label>
+            <br />
+            <InputBox
+              id="phoneNumber"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('phoneNumber', { required: true })}
+            />
+          </div>
+          {errors.phoneNumber ? (
+            <ErrorText>받으시는 분 휴대폰 번호를 입력해주세요.</ErrorText>
+          ) : null}
+          <br />
+          <div>
+            <label htmlFor="deliveryMessage">배송메시지</label>
+            <br />
+            <InputBox
+              id="deliveryMessage"
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...register('deliveryMessage', { required: true })}
+            />
+          </div>
+          {/* <SubmitButton type="submit">결제하기</SubmitButton> */}
+          <PayButton type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></PayButton>
+        </form>
+      </InputContainer>
+
     </div>
   );
 }

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import useShopStore from '../hooks/useShopStore';
-import Pagination from '../components/Pagination';
 import Cart from '../components/Cart';
 
 export default function CartPage() {
@@ -30,13 +29,10 @@ export default function CartPage() {
   };
 
   return (
-    <div>
-      <Cart />
-      <Pagination
-        totalPages={totalPages}
-        onClick={moveToPage}
-        setPage={setPage}
-      />
-    </div>
+    <Cart
+      totalPages={totalPages}
+      onClick={moveToPage}
+      setPage={setPage}
+    />
   );
 }

@@ -22,7 +22,7 @@ export default function Post({ setcompany, company, handleClose }) {
       zonecode,
     });
 
-    handleClose(); // 주소 선택이 완료되면 모달/팝업을 닫습니다.
+    handleClose();
   };
 
   return (

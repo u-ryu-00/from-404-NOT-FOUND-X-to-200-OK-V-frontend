@@ -95,7 +95,6 @@ const Container = styled.header`
   color: #FFFFFF;
   li:first-child {
      margin-left: 4rem;
-     /* margin-right: 4rem; */
   }
 `;
 
@@ -195,14 +194,9 @@ export default function Header() {
           {/* </Menu> */}
           {/* <Menu> */}
           {accessToken ? (
-            <>
-              {/* <li>
-              <Account />
-            </li> */}
-              <li>
-                <StyledNavLink to="/" onClick={handleLogout}><span>Log out</span></StyledNavLink>
-              </li>
-            </>
+            <li>
+              <StyledNavLink to="/" onClick={handleLogout}><span>Log out</span></StyledNavLink>
+            </li>
           ) : (
             <>
               <li>

@@ -207,14 +207,11 @@ export default class ApiService {
     });
   }
 
-  async fetchCart(pageNumber) {
+  async fetchCart() {
     const url = `${baseUrl}/cart`;
     const { data } = await axios.get(url, {
       headers: {
         authorization: `Bearer ${this.accessToken}`,
-      },
-      params: {
-        page: pageNumber,
       },
     });
     return data;

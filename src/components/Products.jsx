@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
 import numberFormat from '../utils/numberFormat';
@@ -8,7 +7,7 @@ import ProductPrice from './ui/ProductPrice';
 
 const Product = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 10rem;
   overflow: scroll;
 
@@ -35,18 +34,17 @@ export default function Products() {
       <Container>
         <Product>
           {(!products.length) ? (
-            <Title>상품이 존재하지 않습니다.</Title>
-          )
-            : null}
+            <p>상품이 존재하지 않습니다.</p>
+          ) : null}
           {products.map((product) => (
-            <Link to={`/products/${product.id}`} key={product.id}>
+            <a href={`/products/${product.id}`} key={product.id}>
               <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />
               <ProductTitle>{product.name}</ProductTitle>
               <ProductPrice>
                 {numberFormat(product.price)}
                 원
               </ProductPrice>
-            </Link>
+            </a>
           ))}
         </Product>
       </Container>
