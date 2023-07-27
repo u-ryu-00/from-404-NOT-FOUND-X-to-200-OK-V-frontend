@@ -29,11 +29,11 @@ export default function SignupForm() {
 
   const onSubmit = async (data) => {
     const {
-      name, userId, password, confirmPassword,
+      userName, userId, password, confirmPassword,
     } = data;
 
     const accessToken = await shopStore.signup({
-      name, userId, password, confirmPassword,
+      userName, userId, password, confirmPassword,
     });
 
     if (accessToken) {
@@ -52,18 +52,18 @@ export default function SignupForm() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Title>JOIN US</Title>
         <div>
-          <label htmlFor="input-account-name">
+          <label htmlFor="input-account-userName">
             이름 :
           </label>
           <br />
           <InputBox
-            id="input-account-name"
+            id="input-account-userName"
             // eslint-disable-next-line react/jsx-props-no-spreading
-            {...register('name', { required: true })}
+            {...register('userName', { required: true })}
           />
           <br />
           <p>3~7자까지 한글만 사용 가능</p>
-          {errors.name ? (
+          {errors.userName ? (
             <ErrorText>이름을 입력해주세요.</ErrorText>
           ) : null}
           {shopStore.isSignupFail && errorMessage === '이름을 다시 확인해주세요.' ? <ErrorText>{shopStore.errorMessage}</ErrorText> : null}

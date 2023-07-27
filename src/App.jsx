@@ -26,6 +26,7 @@ import OrderDetailPage from './pages/OrderDetailPage';
 import RedirectPage from './pages/RedirectPage';
 import EditReviewPage from './pages/EditReviewPage';
 import AdminReviewManagementPage from './pages/AdminReviewManagementPage';
+import PayCancelPage from './pages/PayCancelPage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/order" element={<OrderPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/orders/:id" element={<OrderDetailPage />} />
+        <Route path="/orders/cancel" element={<PayCancelPage />} />
         <Route path="/admin/registration" element={<AdminRegistrationPage />} />
         <Route path="/admin/management" element={<AdminManagementPage />} />
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />

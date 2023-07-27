@@ -20,7 +20,12 @@ const Product = styled.div`
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 5rem;
+`;
+
+const ProductEmptyMessage = styled.p`
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
 `;
 
 export default function Products() {
@@ -31,11 +36,11 @@ export default function Products() {
   return (
     <>
       <Title>Shop</Title>
+      {(!products.length) ? (
+        <ProductEmptyMessage>상품이 존재하지 않습니다.</ProductEmptyMessage>
+      ) : null}
       <Container>
         <Product>
-          {(!products.length) ? (
-            <p>상품이 존재하지 않습니다.</p>
-          ) : null}
           {products.map((product) => (
             <a href={`/products/${product.id}`} key={product.id}>
               <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />

@@ -33,7 +33,6 @@ const Box = styled.h1`
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 5rem;
 `;
 
 const Product = styled.div`
@@ -92,6 +91,12 @@ const ButtonBox = styled.div`
   margin: 3rem;
 `;
 
+const ProductEmptyMessage = styled.p`
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+`;
+
 export default function HomePage() {
   const navigate = useNavigate();
 
@@ -113,12 +118,12 @@ export default function HomePage() {
         from 404 NOT FOUND X to 200 OK V
       </Box>
       <Title>Shop</Title>
+      {(!products.length) ? (
+        <ProductEmptyMessage>상품이 존재하지 않습니다.</ProductEmptyMessage>
+      )
+        : null}
       <Container>
         <Product>
-          {(!products.length) ? (
-            <p>상품이 존재하지 않습니다.</p>
-          )
-            : null}
           {products.map((product) => {
             if (product.id <= 6) {
               return (
