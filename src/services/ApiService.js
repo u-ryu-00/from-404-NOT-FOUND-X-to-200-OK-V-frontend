@@ -22,17 +22,17 @@ export default class ApiService {
 
     return {
       accessToken: data.accessToken,
-      name: data.name,
+      userName: data.userName,
       amount: data.amount,
     };
   }
 
   async signup({
-    name, userId, password, confirmPassword,
+    userName, userId, password, confirmPassword,
   }) {
     const url = `${baseUrl}/accounts`;
     const { data } = await axios.post(url, {
-      name, userId, password, confirmPassword,
+      userName, userId, password, confirmPassword,
     });
     return {
       accessToken: data.accessToken,
@@ -69,7 +69,7 @@ export default class ApiService {
     });
 
     return {
-      name: data.name,
+      userName: data.userName,
       userId: data.userId,
       amount: data.amount,
     };
@@ -338,7 +338,9 @@ export default class ApiService {
     return data.next_redirect_pc_url;
   }
 
-  async approveKakaoPay(pgToken) {
+  async approveKakaoPay(
+    pgToken,
+  ) {
     try {
       const url = `${baseUrl}/orders/success`;
 
@@ -348,6 +350,8 @@ export default class ApiService {
         },
       });
       const responseEntity = response.data;
+
+      console.log(responseEntity);
 
       return {
         responseEntity,

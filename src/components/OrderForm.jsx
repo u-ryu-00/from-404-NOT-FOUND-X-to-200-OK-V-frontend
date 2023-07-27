@@ -56,7 +56,9 @@ const PayButton = styled.button`
 `;
 
 export default function OrderForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register, handleSubmit, formState: { errors },
+  } = useForm();
 
   const shopStore = useShopStore();
 
@@ -74,8 +76,14 @@ export default function OrderForm() {
 
   const onSubmit = async (data) => {
     const {
-      receiver, address, zonecode, phoneNumber, deliveryMessage,
+      receiver, phoneNumber, deliveryMessage,
     } = data;
+
+    const addressInput = document.getElementById('address');
+    const address = addressInput.value;
+
+    const zonecodeInput = document.getElementById('zonecode');
+    const zonecode = zonecodeInput.value;
 
     await shopStore.requestKakaoPay({
       userId,
@@ -117,6 +125,9 @@ export default function OrderForm() {
   const handleClosePost = () => {
     setIsPostOpen(false);
   };
+
+  console.log(register('zonecode'));
+  console.log(register('receiver'));
 
   return (
     <div>
@@ -179,8 +190,6 @@ export default function OrderForm() {
               name="address"
               onChange={handleInput}
               value={enrollCompany.address}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...register('address', { required: true })}
             />
           </div>
           <div>
@@ -193,8 +202,6 @@ export default function OrderForm() {
               name="zonecode"
               onChange={handleInput}
               value={enrollCompany.zonecode}
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              {...register('zonecode', { required: true })}
             />
           </div>
           {isPostOpen && (
@@ -238,7 +245,6 @@ export default function OrderForm() {
           <PayButton type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></PayButton>
         </form>
       </InputContainer>
-
     </div>
   );
 }

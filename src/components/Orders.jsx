@@ -6,6 +6,12 @@ import ProductTitle from './ui/ProductTitle';
 import ProductPrice from './ui/ProductPrice';
 import numberFormat from '../utils/numberFormat';
 
+const OrdersEmptyMessage = styled.p`
+  margin-top: 5rem;
+  display: flex;
+  justify-content: center;
+`;
+
 const Order = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -36,11 +42,11 @@ export default function Orders() {
   return (
     <>
       <Title>My Orders</Title>
+      {(!orders.length) ? (
+        <OrdersEmptyMessage>주문 내역이 없습니다.</OrdersEmptyMessage>
+      ) : null}
       <Container>
         <Order>
-          {(!orders.length) ? (
-            <h1>주문 내역이 없습니다.</h1>
-          ) : null}
           {orders.map((order) => (
             <Link style={{ width: '28rem' }} to={`/orders/${order.orderId}`} key={order.orderId}>
               <img src={order.image} alt={order.name} style={{ width: '28rem', height: '28rem' }} />

@@ -175,6 +175,10 @@ const Total = styled.p`
   font-family: 'Jua';
 `;
 
+const CartEmptyMessage = styled.p`
+  margin-top: 5rem;
+`;
+
 export default function Cart() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -201,8 +205,14 @@ export default function Cart() {
 
   const onSubmit = async (data) => {
     const {
-      receiver, address, zonecode, phoneNumber, deliveryMessage,
+      receiver, phoneNumber, deliveryMessage,
     } = data;
+
+    const addressInput = document.getElementById('address');
+    const address = addressInput.value;
+
+    const zonecodeInput = document.getElementById('zonecode');
+    const zonecode = zonecodeInput.value;
 
     const insufficientInventory = carts.some((cart) => cart.quantity > cart.inventory);
     if (insufficientInventory) {
@@ -265,7 +275,7 @@ export default function Cart() {
   return (
     <All>
       {!carts.length
-        ? <h1>장바구니에 상품이 없습니다.</h1>
+        ? <CartEmptyMessage>장바구니에 상품이 없습니다.</CartEmptyMessage>
         : <Title>My Cart</Title>}
       <Product>
         {carts.map((cart) => (
@@ -372,8 +382,6 @@ export default function Cart() {
                     name="address"
                     onChange={handleInput}
                     value={enrollCompany.address}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...register('address', { required: true })}
                   />
                 </div>
                 <div>
@@ -387,8 +395,6 @@ export default function Cart() {
                     name="zonecode"
                     onChange={handleInput}
                     value={enrollCompany.zonecode}
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...register('zonecode', { required: true })}
                   />
                 </div>
                 {isPostOpen && (

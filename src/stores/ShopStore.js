@@ -6,7 +6,7 @@ export default class ShopStore {
     this.listeners = new Set();
 
     this.userId = '';
-    this.name = '';
+    this.userName = '';
     this.password = '';
     this.amount = 0;
 
@@ -64,11 +64,11 @@ export default class ShopStore {
   async login({ userId, password }) {
     this.changeLoginState('processing');
     try {
-      const { accessToken, name, amount } = await apiService.postSession({
+      const { accessToken, userName, amount } = await apiService.postSession({
         userId, password,
       });
 
-      this.name = name;
+      this.userName = userName;
       this.amount = amount;
       this.userId = userId;
       this.password = password;
@@ -87,12 +87,12 @@ export default class ShopStore {
   }
 
   async signup({
-    name, userId, password, confirmPassword,
+    userName, userId, password, confirmPassword,
   }) {
     this.changeSignupState('processing');
     try {
       const { accessToken, amount } = await apiService.signup({
-        name, userId, password, confirmPassword,
+        userName, userId, password, confirmPassword,
       });
       this.amount = amount;
       this.changeSignupState('success');
@@ -127,9 +127,9 @@ export default class ShopStore {
   }
 
   async fetchAccount() {
-    const { name, userId, amount } = await apiService.fetchAccount();
+    const { userName, userId, amount } = await apiService.fetchAccount();
 
-    this.name = name;
+    this.userName = userName;
     this.userId = userId;
     this.amount = amount;
 
@@ -552,9 +552,13 @@ export default class ShopStore {
     this.publish();
   }
 
-  async approveKakaoPay(pgToken) {
+  async approveKakaoPay(
+    pgToken,
+  ) {
     try {
-      const { responseEntity } = await apiService.approveKakaoPay(pgToken);
+      const { responseEntity } = await apiService.approveKakaoPay(
+        pgToken,
+      );
 
       return responseEntity;
     } catch (e) {

@@ -33,7 +33,9 @@ export default function OrdersPage() {
     shopStore.fetchAccount();
 
     if (pgToken) {
-      shopStore.approveKakaoPay(pgToken);
+      shopStore.approveKakaoPay(
+        pgToken,
+      );
     }
   }, [page]);
 

@@ -12,7 +12,7 @@ const server = setupServer(
     if (userId === 'a111' && password === 'Aa1!!!!!') {
       return res(ctx.json({
         accessToken: 'ACCESS.TOKEN',
-        name: '내이름',
+        userName: '내이름',
         amount: 500_000,
       }));
     }
