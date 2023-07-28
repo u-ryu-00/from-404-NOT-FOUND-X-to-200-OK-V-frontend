@@ -27,6 +27,7 @@ import RedirectPage from './pages/RedirectPage';
 import EditReviewPage from './pages/EditReviewPage';
 import AdminReviewManagementPage from './pages/AdminReviewManagementPage';
 import PayCancelPage from './pages/PayCancelPage';
+import PayCompletePage from './pages/PayCompletePage';
 
 export default function App() {
   const [accessToken] = useLocalStorage('accessToken', '');
@@ -61,6 +62,7 @@ export default function App() {
         <Route path="/admin/management/:id" element={<AdminManagementUpdatePage />} />
         <Route path="/admin/review" element={<AdminReviewManagementPage />} />
         <Route path="/redirect" element={<RedirectPage />} />
+        <Route path="/complete" element={<PayCompletePage />} />
       </Routes>
     </div>
   );

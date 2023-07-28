@@ -126,9 +126,6 @@ export default function OrderForm() {
     setIsPostOpen(false);
   };
 
-  console.log(register('zonecode'));
-  console.log(register('receiver'));
-
   return (
     <div>
       <Container>
@@ -241,7 +238,6 @@ export default function OrderForm() {
               {...register('deliveryMessage', { required: true })}
             />
           </div>
-          {/* <SubmitButton type="submit">결제하기</SubmitButton> */}
           <PayButton type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></PayButton>
         </form>
       </InputContainer>

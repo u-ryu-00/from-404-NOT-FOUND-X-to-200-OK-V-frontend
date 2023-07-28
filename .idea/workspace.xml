@@ -2,23 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d3e3678c-3044-4210-bb34-fc37c03a0d2b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Account.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Account.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AdminHeader.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AdminHeader.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.test.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/KakaoLogin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KakaoLogin.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/LoginForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/OrderForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OrderForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Product.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/AdminHomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/AdminHomePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Cartpage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Cartpage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/HomePage.test.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HomePage.test.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/OAuthPage.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/RedirectPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/RedirectPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/OrdersPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/OrdersPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/ApiService.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ApiService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stores/ShopStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/ShopStore.js" afterDir="false" />
     </list>

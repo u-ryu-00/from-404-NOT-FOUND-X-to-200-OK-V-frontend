@@ -235,7 +235,7 @@ export default function Cart() {
       image: carts[0].image,
       price: carts[0].price,
       inventory: carts[0].inventory,
-      quantity: carts[0].quantity,
+      quantity: totalQuantity,
       receiver,
       address,
       zonecode,
@@ -243,10 +243,6 @@ export default function Cart() {
       deliveryMessage,
       totalPrice: totalAmount,
     });
-
-    for (let i = 0; i < carts.length; i += 1) {
-      shopStore.removeCartItem(carts[i]);
-    }
 
     window.open(shopStore.kakaoPayPcUrl, '_self');
   };

@@ -40,9 +40,6 @@ export default function AdminHeader() {
     <header>
       <nav>
         <Container>
-          {/* <li>
-            <Link to="/admin">홈</Link>
-          </li> */}
           <Menu>
             <li>
               <Link to="/admin/registration">상품 등록</Link>
