@@ -18,7 +18,6 @@ const Container = styled.div`
 
 const Information = styled.div`
   display: flex;
-  /* border: solid; */
   width: 50rem;
 `;
 

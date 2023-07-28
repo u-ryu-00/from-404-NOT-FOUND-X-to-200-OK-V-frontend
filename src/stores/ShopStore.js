@@ -29,6 +29,7 @@ export default class ShopStore {
     this.deleteReviewState = '';
     this.updateReviewState = '';
     this.kakaoPayState = '';
+    this.deleteOrderState = '';
 
     this.products = [];
 
@@ -47,6 +48,16 @@ export default class ShopStore {
     this.kakaoPayPcUrl = '';
 
     this.errorMessage = '';
+
+    this.name = '';
+    this.quantity = 0;
+    this.receiver = '';
+    this.address = '';
+    this.zonecode = '';
+    this.phoneNumber = '';
+    this.deliveryMessage = '';
+
+    this.orderId = '';
   }
 
   subscribe(listener) {
@@ -564,6 +575,23 @@ export default class ShopStore {
     } catch (e) {
       return '';
     }
+  }
+
+  async deleteOrder(id) {
+    this.changeDeleteProductState('processing');
+    try {
+      await apiService.deleteOrder(id);
+
+      this.changeDeleteOrderState('success');
+      this.fetchProducts();
+    } catch (e) {
+      this.changeDeleteOrderState('fail');
+    }
+  }
+
+  changeDeleteOrderState(state) {
+    this.deleteOrderState = state;
+    this.publish();
   }
 }
 

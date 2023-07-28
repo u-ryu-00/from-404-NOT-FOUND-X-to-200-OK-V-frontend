@@ -21,8 +21,6 @@ export default function OrdersPage() {
 
   const [page, setPage] = useState('');
 
-  const pgToken = new URL(window.location.href).searchParams.get('pg_token');
-
   useEffect(() => {
     if (!accessToken) {
       navigate('/login');
@@ -31,12 +29,6 @@ export default function OrdersPage() {
 
     shopStore.fetchOrders(page);
     shopStore.fetchAccount();
-
-    if (pgToken) {
-      shopStore.approveKakaoPay(
-        pgToken,
-      );
-    }
   }, [page]);
 
   const { totalPages, orders } = shopStore;

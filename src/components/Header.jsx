@@ -85,6 +85,23 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const F4T2Link = styled(NavLink)`
+  background: #FFCACC;
+  background: linear-gradient(0deg,  rgb(0,172,238) 0%,  rgb(0,172,238) 100%);
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
+
+  span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
 const Container = styled.header`
   display: flex;
   justify-content: space-between;
@@ -173,7 +190,7 @@ export default function Header() {
       </Marquee>
       <Container>
         <li>
-          F4T2
+          <F4T2Link to="/"><span>F4T2</span></F4T2Link>
         </li>
         <Menu>
           <li>
@@ -191,8 +208,6 @@ export default function Header() {
           <li>
             <span>|</span>
           </li>
-          {/* </Menu> */}
-          {/* <Menu> */}
           {accessToken ? (
             <li>
               <StyledNavLink to="/" onClick={handleLogout}><span>Log out</span></StyledNavLink>

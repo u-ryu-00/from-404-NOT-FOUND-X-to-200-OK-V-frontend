@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import useShopStore from '../hooks/useShopStore';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import SubmitButton from './ui/SubmitButton';
+import numberFormat from '../utils/numberFormat';
 
 const Container = styled.div`
   display: flex;
@@ -68,6 +69,7 @@ export default function Order() {
         </h1>
         <h2>
           {shopStore.quantity}
+          개
         </h2>
       </div>
       <hr />
@@ -76,7 +78,8 @@ export default function Order() {
           총 상품금액
         </h1>
         <h2>
-          {shopStore.totalPrice}
+          {numberFormat(shopStore.totalPrice)}
+          원
         </h2>
       </div>
       <hr />

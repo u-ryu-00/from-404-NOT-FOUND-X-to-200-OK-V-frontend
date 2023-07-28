@@ -310,8 +310,20 @@ export default class ApiService {
   }
 
   async requestKakaoPay({
-    userId, productId, name, description, image, price, inventory, quantity,
-    receiver, address, zonecode, phoneNumber, deliveryMessage, totalPrice,
+    userId,
+    productId,
+    name,
+    description,
+    image,
+    price,
+    inventory,
+    quantity,
+    receiver,
+    address,
+    zonecode,
+    phoneNumber,
+    deliveryMessage,
+    totalPrice,
   }) {
     const url = `${baseUrl}/orders/ready`;
     const { data } = await axios.post(url, {
@@ -351,14 +363,17 @@ export default class ApiService {
       });
       const responseEntity = response.data;
 
-      console.log(responseEntity);
-
       return {
         responseEntity,
       };
     } catch (e) {
       return '';
     }
+  }
+
+  async deleteOrder(id) {
+    const url = `${baseUrl}/orders/${id}`;
+    await axios.delete(url);
   }
 }
 export const apiService = new ApiService();
