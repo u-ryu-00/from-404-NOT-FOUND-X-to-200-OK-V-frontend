@@ -593,6 +593,48 @@ export default class ShopStore {
     this.deleteOrderState = state;
     this.publish();
   }
+
+  async fetchProductId(productId) {
+    this.productId = productId;
+
+    this.publish();
+  }
+
+  async fetchName(name) {
+    this.name = name;
+
+    this.publish();
+  }
+
+  async fetchImage(image) {
+    this.image = image;
+
+    this.publish();
+  }
+
+  async fetchQuantity(quantity) {
+    this.quantity = quantity;
+
+    this.publish();
+  }
+
+  async fetchTotalPrice(totalPrice) {
+    this.totalPrice = totalPrice;
+
+    this.publish();
+  }
+
+  resetImageUrl() {
+    this.imageUrl = '';
+
+    this.publish();
+  }
+
+  async fetchImageUrl(imageUrl) {
+    this.imageUrl = imageUrl;
+
+    this.publish();
+  }
 }
 
 export const shopStore = new ShopStore();

@@ -19,8 +19,8 @@ Scenario('잘못된 아이디를 입력한 경우', ({ I }) => {
 
   // When
   // 잘못된 아이디를 입력폼에 입력함.
-  I.fillField('아이디', 'xxx');
-  I.fillField('비밀번호', 'Aa1!!!!!');
+  I.fillField('ID', 'xxx');
+  I.fillField('Password', 'Aa1!!!!!');
 
   I.click('[type=submit]');
 
@@ -34,8 +34,8 @@ Scenario('잘못된 비밀번호를 입력한 경우', ({ I }) => {
 
   // When
   // 잘못된 비밀번호를 입력폼에 입력함.
-  I.fillField('아이디', 'a111');
-  I.fillField('비밀번호', 'xxx');
+  I.fillField('ID', 'a111');
+  I.fillField('Password', 'xxx');
 
   I.click('[type=submit]');
 
@@ -48,13 +48,13 @@ Scenario('아이디를 미입력하여 로그인 에러가 발생하는 경우',
   I.amOnPage('/login');
 
   // When
-  I.fillField('아이디', '');
-  I.fillField('비밀번호', 'Aa1!!!!!');
+  I.fillField('ID', '');
+  I.fillField('Password', 'Aa1!!!!!');
 
   I.click('[type=submit]');
 
   // Then
-  I.see('미입력 항목이 있습니다.');
+  I.see('아이디를 입력해주세요.');
 });
 
 Scenario('비밀번호를 미입력하여 로그인 에러가 발생하는 경우', ({ I }) => {
@@ -62,13 +62,13 @@ Scenario('비밀번호를 미입력하여 로그인 에러가 발생하는 경�
   I.amOnPage('/login');
 
   // When
-  I.fillField('아이디', 'a111');
-  I.fillField('비밀번호', '');
+  I.fillField('ID', 'a111');
+  I.fillField('Password', '');
 
   I.click('[type=submit]');
 
   // Then
-  I.see('미입력 항목이 있습니다.');
+  I.see('비밀번호를 입력해주세요.');
 });
 
 Scenario('로그인에 성공한 경우', ({ I }) => {
@@ -77,8 +77,8 @@ Scenario('로그인에 성공한 경우', ({ I }) => {
 
   // When
   // 올바른 아이디와 비밀번호를 모두 입력함.
-  I.fillField('아이디', 'a111');
-  I.fillField('비밀번호', 'Aa1!!!!!');
+  I.fillField('ID', 'a111');
+  I.fillField('Password', 'Aa1!!!!!');
 
   I.click('[type=submit]');
 

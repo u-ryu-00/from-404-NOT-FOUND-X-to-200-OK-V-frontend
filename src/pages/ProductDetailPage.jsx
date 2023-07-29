@@ -10,6 +10,8 @@ export default function ProductDetailPage() {
 
   const [accessToken] = useLocalStorage('accessToken', '');
 
+  const [, setProductId] = useLocalStorage('productId', '');
+
   useEffect(() => {
     shopStore.fetchProduct(shopStore.productId);
 
@@ -20,6 +22,8 @@ export default function ProductDetailPage() {
     if (accessToken) {
       shopStore.fetchOrders();
     }
+
+    setProductId(shopStore.productId);
   }, []);
 
   return (

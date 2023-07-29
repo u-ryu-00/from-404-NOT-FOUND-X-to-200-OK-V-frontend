@@ -198,7 +198,6 @@ const UserReview = styled.div`
     width: 60rem;
     height: 10rem;
     word-break: break-all;
-
   }
 `;
 
@@ -252,7 +251,7 @@ const Box = styled.div`
 
 export default function Product() {
   const {
-    register, handleSubmit, setValue, reset,
+    register, handleSubmit, setValue, reset, formState: { errors },
   } = useForm();
 
   const [accessToken] = useLocalStorage('accessToken');
@@ -268,6 +267,14 @@ export default function Product() {
   const [isSoldoutError, setSoldoutError] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
+
+  const [, setName] = useLocalStorage('name');
+
+  const [, setImage] = useLocalStorage('image');
+
+  const [, setQuantity] = useLocalStorage('quantity');
+
+  const [, setTotalPrice] = useLocalStorage('totalPrice');
 
   const {
     userId, productId, image, name, description, price, totalPrice, inventory, quantity,
@@ -299,6 +306,11 @@ export default function Product() {
       setPurchaseError(true);
       return;
     }
+
+    setImage(image);
+    setName(name);
+    setQuantity(quantity);
+    setTotalPrice(totalPrice);
 
     navigate('/order');
   };
@@ -337,6 +349,12 @@ export default function Product() {
 
   const onSubmit = async (data) => {
     if (!accessToken) {
+      reset();
+
+      shopStore.imageUrl = '';
+
+      shopStore.ratingValue = '';
+
       navigate('/login');
 
       return;
@@ -348,6 +366,13 @@ export default function Product() {
 
     if (!foundOrder) {
       alert('상품을 구매하지 않아 리뷰를 작성하실 수 없습니다.');
+
+      reset();
+
+      shopStore.imageUrl = '';
+
+      shopStore.ratingValue = '';
+
       return;
     }
 
@@ -358,6 +383,12 @@ export default function Product() {
 
     if (existingReview) {
       alert('이미 리뷰를 작성하셨습니다.');
+
+      reset();
+
+      shopStore.imageUrl = '';
+
+      shopStore.ratingValue = '';
       return;
     }
 
@@ -389,6 +420,8 @@ export default function Product() {
     reset();
 
     shopStore.imageUrl = '';
+
+    shopStore.ratingValue = '';
   };
 
   const handleDeleteReview = async (reviewId) => {
@@ -407,6 +440,12 @@ export default function Product() {
 
   const handleImageChange = async (e) => {
     await shopStore.uploadImage(e.target.files[0]);
+  };
+
+  const handleWriteButton = () => {
+    // reset();
+
+    // shopStore.imageUrl = '';
   };
 
   return (
@@ -489,7 +528,7 @@ export default function Product() {
           <ReviewText>
             <div>
               <label htmlFor="title">
-                제목 :
+                제목*
               </label>
               <br />
               <InputBox
@@ -498,9 +537,10 @@ export default function Product() {
                 {...register('title', { required: true })}
               />
             </div>
+
             <div>
               <label htmlFor="rating">
-                별점
+                별점*
               </label>
               <label>
                 <input type="radio" name="rating" value="5" onChange={handleRatingChange} />
@@ -524,7 +564,7 @@ export default function Product() {
               </label>
             </div>
             <div>
-              <label htmlFor="content">리뷰 내용 : </label>
+              <label htmlFor="content">리뷰 내용*</label>
               <br />
               <textarea
                 id="content"
@@ -534,8 +574,16 @@ export default function Product() {
                 {...register('content', { required: true })}
               />
             </div>
-            <SubmitButton type="submit">WRITE</SubmitButton>
+            <SubmitButton type="submit" onClick={handleWriteButton}>WRITE</SubmitButton>
+            <br />
+            {errors.title ? (
+              <ErrorText>제목을 입력해주세요.</ErrorText>
+            ) : null}
+            {errors.content ? (
+              <ErrorText>리뷰 내용을 입력해주세요.</ErrorText>
+            ) : null}
           </ReviewText>
+
           <ReviewImage>
             <div>
               <label htmlFor="image">리뷰 이미지 </label>
@@ -546,9 +594,13 @@ export default function Product() {
               />
             </div>
             <img src={shopStore.imageUrl} alt="" />
+
           </ReviewImage>
+
         </Review>
+
       </form>
+
       <Container>
         <ReviewContainer>
           {reviews.map((review) => (

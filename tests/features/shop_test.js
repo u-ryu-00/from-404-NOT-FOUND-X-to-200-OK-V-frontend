@@ -10,8 +10,8 @@ Scenario('상품이 있는 경우', ({ I }) => {
   I.amOnPage('/products');
 
   // Then
-  // Shop 화면에 [상품 이름] 글씨 보임.
-  I.see('키보드');
+  I.see('Shop');
+  I.see('소음이 적은 레이저 기계식 키보드');
 });
 
 Scenario('두번째 페이지를 클릭하는 경우', ({ I }) => {
@@ -21,8 +21,7 @@ Scenario('두번째 페이지를 클릭하는 경우', ({ I }) => {
   I.click('2');
 
   // Then
-  // Shop 화면에 [상품 이름] 글씨 보임.
-  I.see('조명');
+  I.see('스탠드 조명');
 });
 
 Scenario('상품이 없는 경우', ({ I }) => {

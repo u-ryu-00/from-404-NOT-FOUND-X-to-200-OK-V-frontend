@@ -184,6 +184,7 @@ export default function OrderForm() {
               id="address"
               placeholder="주소"
               type="text"
+              required
               name="address"
               onChange={handleInput}
               value={enrollCompany.address}
@@ -196,6 +197,7 @@ export default function OrderForm() {
               id="zonecode"
               placeholder="우편번호"
               type="text"
+              required
               name="zonecode"
               onChange={handleInput}
               value={enrollCompany.zonecode}
@@ -235,7 +237,7 @@ export default function OrderForm() {
             <InputBox
               id="deliveryMessage"
               // eslint-disable-next-line react/jsx-props-no-spreading
-              {...register('deliveryMessage', { required: true })}
+              {...register('deliveryMessage', { required: false })}
             />
           </div>
           <PayButton type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></PayButton>
