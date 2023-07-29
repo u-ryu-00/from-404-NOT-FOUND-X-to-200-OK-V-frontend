@@ -2,9 +2,9 @@
   "name": "from-404-not-found-x-to-200-ok-v-frontend",
   "version": "1.0.0",
   "description": "from 404 NOT FOUND X to 200 OK V front-end application",
-  "main": "index.js",
   "scripts": {
     "start": "parcel index.html --port 8080",
+    "build": "parcel build index.html",
     "test": "jest",
     "watch:test": "npm test -- --watchAll",
     "codeceptjs": "codeceptjs run --steps",
