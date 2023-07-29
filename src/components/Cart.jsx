@@ -176,7 +176,6 @@ const Total = styled.p`
 `;
 
 const CartEmptyMessage = styled.p`
-  margin-top: 5rem;
 `;
 
 export default function Cart() {
@@ -270,9 +269,10 @@ export default function Cart() {
 
   return (
     <All>
+      <Title>My Cart</Title>
       {!carts.length
         ? <CartEmptyMessage>장바구니에 상품이 없습니다.</CartEmptyMessage>
-        : <Title>My Cart</Title>}
+        : null}
       <Product>
         {carts.map((cart) => (
           <div key={cart.cartId}>
@@ -436,7 +436,7 @@ export default function Cart() {
                   <InputBox
                     id="deliveryMessage"
                     // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...register('deliveryMessage', { required: true })}
+                    {...register('deliveryMessage', { required: false })}
                   />
                 </div>
                 <PayButton type="submit"><img src={KakaoPaymentLogo} alt="카카오페이로고" /></PayButton>
