@@ -1,6 +1,6 @@
 /* global actor */
 
-const backdoorBaseUrl = 'http://localhost:8000/backdoor';
+const backdoorBaseUrl = 'https://f4t2-spring.fly.dev/backdoor';
 module.exports = () => actor({
   setupDatabase() {
     this.amOnPage(`${backdoorBaseUrl}/setup-database`);
