@@ -126,7 +126,6 @@ export default function HomePage() {
         <Product>
           {products.map((product) => {
             if (product.id <= 6) {
-              console.log(product);
               return (
                 <Link to={`/products/${product.id}`} key={product.id}>
                   <img src={product.image} alt="상품 사진" style={{ width: '30rem', height: '30rem' }} />
