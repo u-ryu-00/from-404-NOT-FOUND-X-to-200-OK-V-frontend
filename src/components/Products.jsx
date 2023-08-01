@@ -33,6 +33,8 @@ export default function Products() {
 
   const { products } = shopStore;
 
+  const sortedProducts = products.slice().sort((a, b) => a.id - b.id);
+
   return (
     <>
       <Title>Shop</Title>
@@ -41,7 +43,7 @@ export default function Products() {
       ) : null}
       <Container>
         <Product>
-          {products.map((product) => (
+          {sortedProducts.map((product) => (
             <a href={`/products/${product.id}`} key={product.id}>
               <img src={product.image} alt="상품 사진" style={{ width: '28rem', height: '28rem' }} />
               <ProductTitle>{product.name}</ProductTitle>
